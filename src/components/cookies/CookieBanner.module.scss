@@ -1,0 +1,211 @@
+.banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $z-cookie;
+  background: var(--c-bg);
+  border-top: 1px solid var(--c-border);
+  box-shadow: 0 -8px 32px rgba(11, 10, 24, 0.14);
+
+  @include motion-safe {
+    animation: slide-up 0.35s $ease both;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+.bannerInner {
+  @include container($container-wide);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-block: 1.25rem;
+
+  @include up(lg) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+}
+
+.bannerText {
+  flex: 1;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--c-fg);
+}
+
+.titleIcon {
+  color: var(--accent-strong);
+}
+
+.body {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--c-body);
+}
+
+.policyLink {
+  color: var(--c-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  white-space: nowrap;
+}
+
+.bannerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  flex: 0 0 auto;
+}
+
+/* --- Settings dialog ----------------------------------------------------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-cookie;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(11, 10, 24, 0.6);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(36rem, 100%);
+  max-height: min(85vh, 44rem);
+  border-radius: $radius-lg;
+  background: var(--c-bg);
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+}
+
+.dialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--c-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-fg);
+
+  @include focus-ring(2px);
+
+  &:hover {
+    background: var(--c-bg-alt);
+  }
+}
+
+.dialogBody {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.categories {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.category {
+  padding: 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  background: var(--c-bg-alt);
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.switchLabel {
+  flex: 1;
+  font-weight: 700;
+  color: var(--c-fg);
+  cursor: pointer;
+}
+
+.always {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.switch {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  accent-color: var(--brand-700);
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &:focus-visible {
+    outline: var(--focus-width) solid var(--c-focus);
+    outline-offset: 2px;
+  }
+}
+
+.categoryDesc {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--c-body);
+}
+
+.policyRow {
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem;
+}
+
+.dialogFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--c-border);
+  background: var(--c-bg);
+}

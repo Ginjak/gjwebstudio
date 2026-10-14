@@ -1,0 +1,113 @@
+.wrap {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}
+
+.title {
+  @include heading(3);
+  margin: 0 0 0.5rem;
+}
+
+.body {
+  margin: 0;
+  color: var(--c-body);
+  font-size: 0.9688rem;
+  line-height: 1.6;
+}
+
+.form {
+  width: 100%;
+}
+
+/* One pill-shaped field: the input is borderless inside it and the button
+   sits within the pill on the right. The pill takes the border and the focus
+   ring, so the two read as a single control. */
+.inputRow {
+  display: flex;
+  align-items: stretch; // the button runs the full height of the field
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-pill;
+  background: var(--c-bg);
+  box-shadow: $shadow-sm;
+  transition:
+    border-color $dur-hover $ease-hover,
+    box-shadow $dur-hover $ease-hover;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--c-fg) 35%, var(--c-border));
+  }
+
+  // Typing in the field: the whole pill gets the site's focus outline. (Only
+  // for the input — the button has its own focus ring.)
+  &:has(.input:focus) {
+    border-color: var(--c-link);
+    outline: var(--focus-width) solid var(--c-focus);
+    outline-offset: 2px;
+  }
+}
+
+.input {
+  flex: 1;
+  min-width: 0; // lets it shrink on narrow phones instead of pushing the button out
+  min-height: 50px;
+  padding: 0 0.85rem 0 1.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--c-fg);
+  font-size: 1rem;
+
+  &::placeholder {
+    color: var(--c-muted);
+    opacity: 1;
+  }
+
+  // The pill shows focus instead (see :has(.input:focus) above).
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+// `.inputRow .submit` outranks Button's own padding/size rules, which may
+// load after this file.
+.inputRow .submit {
+  flex: 0 0 auto;
+  min-height: 0;
+  // Pulled over the field's 1px border so its edges meet the outer edge.
+  margin: -1px -1px -1px 0;
+  padding-inline: 1.5rem;
+  // Square on the left where it meets the input, rounded on the right to
+  // follow the field's pill shape.
+  border-radius: 0 $radius-pill $radius-pill 0;
+  white-space: nowrap;
+
+  // The shared focus ring would otherwise switch the corners to 8px.
+  &:focus-visible {
+    border-radius: 0 $radius-pill $radius-pill 0;
+  }
+
+  @media (max-width: 379.98px) {
+    padding-inline: 0.9rem;
+    font-size: 0.875rem;
+  }
+}
+
+:global(:root[data-contrast='high']) .inputRow {
+  border-width: 2px;
+  border-color: var(--c-fg);
+  box-shadow: none;
+}
+
+.consent {
+  margin: 0.6rem 0 0;
+  color: var(--c-muted);
+  font-size: 0.8125rem;
+}

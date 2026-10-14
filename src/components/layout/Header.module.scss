@@ -1,0 +1,630 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-header;
+  background: transparent;
+  transition:
+    transform 0.4s $ease,
+    background-color $dur $ease,
+    box-shadow $dur $ease,
+    border-color $dur $ease;
+  border-bottom: 1px solid transparent;
+}
+
+/* Scrolled down → slide out of the way. */
+.down:not(.opened) {
+  transform: translate3d(0, -100%, 0);
+}
+
+/* Scrolled up, or the mobile menu / a mega menu is open → a solid, blurred bar. */
+.up,
+.opened {
+  transform: none;
+  background: color-mix(in srgb, var(--c-bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom-color: var(--c-border);
+  box-shadow: $shadow-sm;
+}
+
+.top {
+  transform: none;
+}
+
+/* High contrast: a fully opaque bar — no see-through, blur or soft shadow. */
+:global(:root[data-contrast='high']) {
+  .up,
+  .opened {
+    background: var(--c-bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+}
+
+.inner {
+  @include container($container-wide);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--header-height);
+}
+
+.brand {
+  --logo-color: var(--brand-700);
+
+  display: inline-flex;
+  align-items: center;
+  color: var(--logo-color);
+  text-decoration: none;
+  flex: 0 0 auto;
+
+  @include focus-ring(4px);
+
+  /* No hover colour change (overrides the global a:hover). */
+  &:hover {
+    color: var(--logo-color);
+  }
+
+  /* Transparent header over a dark background → white logo. */
+  .onDark.top:not(.opened) & {
+    --logo-color: var(--white);
+  }
+
+  /* Brand purple is unreadable on the dark-theme background, and high
+     contrast uses pure black / white. (The dark-background rule above is more
+     specific, so the logo stays white over a dark hero in every mode.) */
+  :global(:root[data-theme='dark']) &,
+  :global(:root[data-contrast='high']) & {
+    --logo-color: var(--c-fg);
+  }
+}
+
+/* --- Desktop nav --------------------------------------------------------- */
+.desktopNav {
+  display: none;
+
+  @include up(lg) {
+    display: block;
+    margin-inline: auto;
+  }
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  display: inline-block;
+  padding: 0.5rem 0.85rem;
+  border-radius: $radius-pill;
+  --nav-color: var(--c-fg);
+  color: var(--nav-color);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  @include focus-ring(2px);
+
+  /* Transparent header over a dark background → light links. Sets only the
+     variable, so the :hover colour below still wins on the light bubble. */
+  .onDark.top:not(.opened) & {
+    --nav-color: var(--white);
+  }
+
+  &:hover {
+    background: var(--c-bg-alt);
+    color: var(--c-fg);
+  }
+
+  /* High contrast: the bubble matches the bar, so show hover as an underline. */
+  :global(:root[data-contrast='high']) &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+}
+
+/* Item with a mega menu: the link and its chevron sit in one hover bubble. */
+.navPill {
+  --nav-color: var(--c-fg);
+
+  display: inline-flex;
+  align-items: center;
+  padding-right: 0.5rem;
+  border-radius: $radius-pill;
+  color: var(--nav-color);
+  transition:
+    background-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  .onDark.top:not(.opened) & {
+    --nav-color: var(--white);
+  }
+
+  &:hover,
+  &.navPillOpen {
+    background: var(--c-bg-alt);
+    --nav-color: var(--c-fg);
+  }
+}
+
+/* The bubble belongs to the pill, so the link inside never draws its own. */
+.navLinkInPill {
+  padding-right: 0.3rem;
+
+  &:hover,
+  .navPill:hover &,
+  .navPillOpen & {
+    background: transparent;
+    color: var(--c-fg);
+  }
+}
+
+.megaToggle {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  @include focus-ring(2px);
+
+  svg {
+    display: block;
+    transition: transform $dur $ease-hover;
+    // Own compositor layer: the turn keeps running smoothly even while the
+    // main thread is busy painting the mega panel that opens with it.
+    will-change: transform;
+  }
+}
+
+.megaToggleOpen svg {
+  transform: rotate(180deg);
+}
+
+/* The panel spans the full header width (the header is its containing block). */
+.mega {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+  background: var(--c-bg);
+  box-shadow: $shadow-lg;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.2s $ease,
+    transform 0.2s $ease;
+  // Closed panels stay painted on their own layer (just invisible), so opening
+  // one only fades a ready-made layer instead of painting the large panel and
+  // its shadow in that frame — which stalled the chevron's turn. Closed panels
+  // are `inert` (see Header.jsx), so they're out of the tab order and the
+  // accessibility tree without needing visibility: hidden.
+  will-change: opacity, transform;
+}
+
+.megaOpen {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition:
+    opacity 0.28s $ease,
+    transform 0.28s $ease;
+}
+
+:global(:root[data-contrast='high']) .mega {
+  border-bottom-width: 2px;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega,
+  .megaOpen {
+    transform: none;
+    transition: none;
+  }
+}
+
+.navLinkActive {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--c-underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.45em;
+}
+
+/* --- Right-hand actions -------------------------------------------------- */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.cta {
+  display: none;
+
+  @include up(md) {
+    display: inline-flex;
+  }
+
+  /* Over a dark background the purple primary blends in → yellow accent. */
+  .header.onDark.top:not(.opened) & {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--brand-900);
+  }
+
+  .header.onDark.top:not(.opened) &:hover {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+    color: var(--brand-900);
+  }
+}
+
+.toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  --toggle-color: var(--c-fg);
+  --toggle-border: var(--c-border);
+
+  border: 1px solid var(--toggle-border);
+  border-radius: $radius-pill;
+  background: transparent;
+  color: var(--toggle-color);
+  transition:
+    background-color $dur-hover $ease-hover,
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  @include focus-ring(2px);
+
+  /* Transparent header over a dark background → white lines. Sets only the
+     variables, so :hover below still wins. */
+  .onDark.top:not(.opened) & {
+    --toggle-color: var(--white);
+    --toggle-border: rgba(255, 255, 255, 0.45);
+  }
+
+  :global(:root[data-contrast='high']) .onDark.top:not(.opened) & {
+    --toggle-border: var(--white);
+  }
+
+  &:hover {
+    background: var(--c-bg-alt);
+    border-color: var(--c-border);
+    color: var(--c-fg);
+  }
+
+  @include up(lg) {
+    display: none;
+  }
+}
+
+/* --- Hamburger → X ------------------------------------------------------- */
+/* Opening: outer bars slide to the centre, then rotate into an X.
+   Closing: the X un-rotates first, then the bars slide back apart. */
+.burger {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 16px;
+
+  span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      translate 0.16s $ease 0.16s,
+      rotate 0.16s $ease,
+      opacity 0.1s linear 0.16s;
+  }
+
+  span:nth-child(1) {
+    top: 0;
+  }
+
+  span:nth-child(2) {
+    top: 7px;
+  }
+
+  span:nth-child(3) {
+    top: 14px;
+  }
+}
+
+.burgerOpen span {
+  transition:
+    translate 0.16s $ease,
+    rotate 0.16s $ease 0.16s,
+    opacity 0.1s linear;
+
+  &:nth-child(1) {
+    translate: 0 7px;
+    rotate: 45deg;
+  }
+
+  &:nth-child(2) {
+    opacity: 0;
+  }
+
+  &:nth-child(3) {
+    translate: 0 -7px;
+    rotate: -45deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burger span {
+    transition: none;
+  }
+}
+
+/* --- Mobile panel -------------------------------------------------------- */
+.panel {
+  position: fixed;
+  /* The header's backdrop-filter makes it the containing block for this
+     fixed panel, so `bottom: 0` would end at the header — use an explicit
+     viewport height instead. */
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem $gutter 3rem;
+  background: var(--c-bg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  /* `display: flex` above would otherwise override the hidden attribute. */
+  &[hidden] {
+    display: none;
+  }
+
+  @include up(lg) {
+    display: none;
+  }
+}
+
+.panelList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panelItem {
+  border-bottom: 1px solid var(--c-border);
+
+  @include motion-safe {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: panel-in 0.32s $ease forwards;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+}
+
+.panelRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.panelLink {
+  flex: 1 1 auto;
+  padding: 0.85rem 0;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  @include focus-ring(2px);
+}
+
+.panelSubToggle {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--c-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-fg);
+  cursor: pointer;
+  transition:
+    background-color $dur-hover $ease-hover,
+    border-color $dur-hover $ease-hover;
+
+  @include focus-ring(2px);
+
+  svg {
+    display: block;
+    transition: transform $dur $ease-hover;
+  }
+}
+
+.panelSubToggleOpen {
+  background: var(--c-bg-alt);
+
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
+/* Height animates via the 0fr → 1fr grid-row trick; visibility keeps the
+   collapsed links out of the tab order and the accessibility tree. */
+.panelSub {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows $dur $ease,
+    visibility 0s linear $dur;
+
+  > ul {
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
+.panelSubOpen {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows $dur $ease,
+    visibility 0s;
+}
+
+.panelSubList {
+  margin: 0;
+  padding: 0 0 0.75rem 0.25rem;
+  list-style: none;
+}
+
+.panelSubLink {
+  display: block;
+  padding: 0.55rem 0 0.55rem 0.85rem;
+  border-left: 2px solid var(--c-border);
+  color: var(--c-body);
+  font-size: 1rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition:
+    border-left-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  @include focus-ring(2px);
+
+  &:hover,
+  &[aria-current='page'] {
+    border-left-color: var(--c-underline);
+    color: var(--c-fg);
+  }
+}
+
+.panelSubLinkAll {
+  color: var(--c-link);
+  font-weight: 600;
+}
+
+.panelLinkActive {
+  color: var(--c-link);
+}
+
+/* Closing: links leave in reverse order, then the panel fades.
+   Timing is mirrored by the close timer in Header.jsx. */
+.panelClosing {
+  @include motion-safe {
+    animation: panel-fade-out 0.2s $ease forwards;
+    animation-delay: calc(var(--n, 0) * 45ms + 80ms);
+
+    .panelItem {
+      opacity: 1;
+      transform: none;
+      animation: panel-out 0.24s $ease forwards;
+      animation-delay: calc((var(--n, 1) - 1 - var(--i, 0)) * 45ms);
+    }
+  }
+}
+
+.panelFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@keyframes panel-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes panel-out {
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes panel-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panelItem {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* The accessibility panel's "reduce motion" toggle. The global override only
+   shortens durations — the stagger delays would still apply — so switch the
+   header's animations off outright. */
+:global(:root[data-reduce-motion='true']) {
+  .panelItem,
+  .panelClosing,
+  .panelClosing .panelItem {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .burger span,
+  .mega,
+  .megaOpen,
+  .panelSub,
+  .panelSubOpen {
+    transition: none;
+  }
+
+  .mega {
+    transform: none;
+  }
+}

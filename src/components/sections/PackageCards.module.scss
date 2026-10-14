@@ -1,0 +1,305 @@
+.grid {
+  display: grid;
+  gap: 2rem 1.25rem; // row gap leaves room for the badge on the top edge
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include up(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li > * {
+    width: 100%;
+  }
+}
+
+/* Hover and keyboard focus share the same "active" look. */
+@mixin active {
+  .card:hover &,
+  .card:focus-within & {
+    @content;
+  }
+}
+
+.card {
+  --tone: var(--brand-700);
+  --tone-fg: #fff;
+  --bw: 1px; // border width (the featured card uses 2px)
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem;
+  border: var(--bw) solid var(--c-border);
+  border-radius: $radius-lg;
+  background: var(--c-surface);
+  box-shadow: $shadow-sm;
+
+  /* Accent line along the full top edge, following the rounded corners: a
+     3px top border on a box laid exactly over the card's own border. It's
+     wiped in left → right with clip-path, so it keeps its shape. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--bw));
+    border-top: 3px solid var(--tone);
+    border-radius: inherit;
+    pointer-events: none;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.6s $ease-out;
+  }
+
+  &:hover,
+  &:focus-within {
+    border-color: color-mix(in srgb, var(--tone) 35%, var(--c-border));
+    box-shadow: $shadow-lg;
+
+    &::before {
+      clip-path: inset(0 0 0 0);
+    }
+
+    @include motion-safe {
+      translate: 0 -5px;
+    }
+  }
+}
+
+/* The card is also the Reveal element, and Reveal's stylesheet loads after
+   this one with its own `transition` (opacity, transform) — which would
+   replace ours and make the hover snap. The extra `.grid` outranks it, and
+   Reveal's two transitions are kept so the scroll-in still animates.
+   `translate` (not `transform`) is used for the lift because Reveal pins
+   transform on this element. */
+.grid .card {
+  transition:
+    opacity $dur-slow $ease-out,
+    transform $dur-slow $ease-out,
+    translate 0.55s $ease-out,
+    box-shadow 0.55s $ease-out,
+    border-color 0.55s $ease-out;
+}
+
+.featured {
+  --bw: 2px;
+
+  border-color: var(--tone);
+  box-shadow: $shadow;
+
+  &:hover,
+  &:focus-within {
+    border-color: var(--tone);
+  }
+}
+
+:global(:root[data-theme='dark']) .card {
+  --tone: var(--accent);
+  --tone-fg: var(--brand-900);
+}
+
+/* --- Row alignment across cards (subgrid) --------------------------------- */
+$rows: 6;
+
+@supports (grid-template-rows: subgrid) {
+  .grid {
+    > li,
+    > li > .card {
+      display: grid;
+      grid-row: span $rows;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+  }
+
+  .head { grid-row: 1; }
+  .price { grid-row: 2; }
+  .duration { grid-row: 3; align-self: start; }
+  .text { grid-row: 4; }
+  .includes { grid-row: 5; align-self: start; }
+  .cta { grid-row: 6; align-self: end; }
+}
+
+/* --- Badge ----------------------------------------------------------------- */
+.badge {
+  position: absolute;
+  top: 0;
+  left: 1.75rem;
+  translate: 0 -50%;
+  margin: 0;
+  padding: 0.3rem 0.75rem;
+  border-radius: $radius-pill;
+  background: var(--accent);
+  color: var(--brand-900);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --- Head: icon + name ----------------------------------------------------- */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+// Before .icon's hover rule (same specificity) so hover still wins.
+:global(:root[data-theme='dark']) .icon {
+  background: rgba(106, 99, 201, 0.18);
+  color: var(--brand-200);
+}
+
+.icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: $radius-sm;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  transition:
+    background-color 0.45s $ease-hover,
+    color 0.45s $ease-hover,
+    transform 0.6s $ease-out;
+
+  @include active {
+    background: var(--tone);
+    color: var(--tone-fg);
+
+    @include motion-safe {
+      transform: rotate(-6deg) scale(1.06);
+    }
+  }
+}
+
+.name {
+  @include heading(4);
+  margin: 0;
+}
+
+/* --- Price & duration ------------------------------------------------------ */
+.price {
+  margin: 0;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.from {
+  color: var(--c-muted);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.duration {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start; // subgrid: don't stretch the chip
+  align-self: flex-start; // flex fallback
+  gap: 0.35rem;
+  margin: 0.6rem 0 1.25rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: $radius-pill;
+  background: var(--c-bg-alt);
+  color: var(--c-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.45s $ease-hover,
+    color 0.45s $ease-hover;
+
+  @include active {
+    background: var(--accent);
+    color: var(--brand-900);
+  }
+}
+
+.text {
+  margin: 0 0 1.25rem;
+  color: var(--c-body);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+/* --- Includes: checks fill in one after another on hover ------------------- */
+.includes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0 0 1.75rem;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid var(--c-border);
+  list-style: none;
+  font-size: 0.9375rem;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    line-height: 1.5;
+  }
+}
+
+.check {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 0.1em;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--brand-900);
+  transition:
+    background-color 0.35s $ease-hover,
+    color 0.35s $ease-hover;
+  transition-delay: calc(var(--i, 0) * 50ms);
+
+  @include active {
+    background: var(--accent);
+  }
+}
+
+:global(:root[data-theme='dark']) .check {
+  color: var(--accent);
+
+  .card:hover &,
+  .card:focus-within & {
+    color: var(--brand-900);
+  }
+}
+
+.cta {
+  margin-top: auto; // flex fallback: keep buttons at the bottom
+}
+
+/* --- Accessibility modes --------------------------------------------------- */
+:global(:root[data-contrast='high']) .card::before {
+  display: none;
+}
+
+:global(:root[data-reduce-motion='true']) {
+  .card {
+    translate: none !important;
+  }
+
+  .icon {
+    transform: none !important;
+  }
+
+  .check {
+    transition-delay: 0s;
+  }
+}

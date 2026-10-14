@@ -1,0 +1,17 @@
+import { siteConfig } from '@/config/site.config';
+
+const base = siteConfig.url.replace(/\/$/, '');
+
+export default function robots() {
+  return {
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/'],
+      },
+    ],
+    sitemap: `${base}/sitemap.xml`,
+    host: base,
+  };
+}

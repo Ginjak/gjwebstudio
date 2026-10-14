@@ -1,0 +1,47 @@
+.scroller {
+  overflow-x: auto;
+  margin-block: 2rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+
+  @include focus-ring(0);
+}
+
+.table {
+  width: 100%;
+  min-width: 40rem;
+  font-size: 0.9375rem;
+
+  th {
+    background: var(--c-bg-alt);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  td {
+    vertical-align: top;
+  }
+}
+
+.manageRow {
+  margin-top: 2rem;
+}
+
+.manageButton {
+  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  border: 2px solid var(--btn-secondary-border);
+  border-radius: $radius-pill;
+  background: transparent;
+  color: var(--btn-secondary-fg);
+  font-weight: 600;
+  cursor: pointer;
+
+  @include focus-ring;
+
+  &:hover {
+    background: var(--btn-secondary-border);
+    color: var(--c-bg);
+  }
+}

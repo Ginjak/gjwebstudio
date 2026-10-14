@@ -1,0 +1,55 @@
+// ---------------------------------------------------------------------------
+// DESIGN TOKENS
+// ---------------------------------------------------------------------------
+// This file is auto-injected into every .scss file (see next.config.mjs), so
+// you never need to @use it manually. It contains Sass variables only — the
+// runtime CSS custom properties live in globals.scss.
+// ---------------------------------------------------------------------------
+
+// --- Breakpoints (mobile first) --------------------------------------------
+$bp: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  xxl: 1600px,
+);
+
+// --- Layout ----------------------------------------------------------------
+$container-max: 1280px;
+$container-wide: 1600px;
+$container-narrow: 760px;
+$gutter: 1.25rem;
+$gutter-lg: 2rem;
+
+// --- Radii -----------------------------------------------------------------
+$radius-sm: 8px;
+$radius: 14px;
+$radius-lg: 24px;
+$radius-pill: 999px;
+
+// --- Motion ----------------------------------------------------------------
+$ease: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+$dur-fast: 0.18s;
+$dur: 0.32s;
+$dur-slow: 0.6s;
+$dur-hover: 0.35s; // colour changes on buttons & nav controls
+// Even, symmetric curve for colour fades. ($ease front-loads ~90% of the
+// change into the first few frames — great for movement, but colour changes
+// with it look like they snap.)
+$ease-hover: cubic-bezier(0.4, 0, 0.2, 1);
+
+// --- Elevation -------------------------------------------------------------
+$shadow-sm: 0 1px 2px rgba(11, 10, 24, 0.06), 0 2px 8px rgba(11, 10, 24, 0.05);
+$shadow: 0 4px 12px rgba(11, 10, 24, 0.08), 0 12px 32px rgba(11, 10, 24, 0.07);
+$shadow-lg: 0 8px 24px rgba(11, 10, 24, 0.1), 0 24px 64px rgba(11, 10, 24, 0.12);
+
+// --- Z-index scale ---------------------------------------------------------
+$z-base: 1;
+$z-sticky: 50;
+$z-header: 100;
+$z-nav: 110;
+$z-a11y: 120;
+$z-cookie: 130;
+$z-skip: 140;

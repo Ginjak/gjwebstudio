@@ -1,0 +1,217 @@
+/* Timeline: vertical (node left of the card) below xl, horizontal (node above
+   the card, line running between nodes) from xl up. */
+
+$gap-v: 1.25rem;
+$gap-h: 1rem;
+
+.list {
+  --node: 46px;
+  --fill: var(--brand-700);
+
+  display: grid;
+  gap: $gap-v;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include up(xl) {
+    grid-template-columns: repeat(5, 1fr);
+    gap: $gap-h;
+  }
+}
+
+:global(:root[data-theme='dark']) .list {
+  --fill: var(--accent);
+}
+
+.item {
+  position: relative;
+  display: flex;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: var(--node) 1fr;
+  column-gap: 1rem;
+  width: 100%;
+
+  @include up(xl) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    row-gap: 1.25rem;
+  }
+}
+
+/* --- Connector line ------------------------------------------------------- */
+/* Runs from this node to the next one; its ::after fills when the step is done. */
+.segment {
+  position: absolute;
+  top: var(--node);
+  bottom: -$gap-v;
+  left: calc(var(--node) / 2 - 1px);
+  width: 2px;
+  background: var(--c-border);
+
+  @include up(xl) {
+    top: calc(var(--node) / 2 - 1px);
+    bottom: auto;
+    left: var(--node);
+    right: -$gap-h;
+    width: auto;
+    height: 2px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--fill);
+    transform-origin: top;
+    scale: 1 0;
+    transition: scale 0.5s $ease-out;
+
+    @include up(xl) {
+      transform-origin: left;
+      scale: 0 1;
+    }
+  }
+}
+
+.done .segment::after {
+  scale: 1 1;
+}
+
+/* --- Node (step number) -------------------------------------------------- */
+.node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  border: 2px solid var(--c-border);
+  border-radius: 50%;
+  background: var(--c-surface);
+  color: var(--c-muted);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  transition:
+    background-color 0.4s $ease,
+    border-color 0.4s $ease,
+    color 0.4s $ease;
+}
+
+.done .node,
+.current .node {
+  border-color: var(--fill);
+  background: var(--fill);
+  color: #fff;
+}
+
+:global(:root[data-theme='dark']) {
+  .done .node,
+  .current .node {
+    color: var(--brand-900);
+  }
+}
+
+/* A ring ripples out once each time a step becomes the current one. */
+.current .node::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--fill);
+  border-radius: 50%;
+  opacity: 0;
+
+  @include motion-safe {
+    animation: ping 0.9s $ease-out;
+  }
+}
+
+@keyframes ping {
+  from {
+    opacity: 0.7;
+    scale: 1;
+  }
+
+  to {
+    opacity: 0;
+    scale: 1.7;
+  }
+}
+
+/* --- Card ----------------------------------------------------------------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  background: var(--c-surface);
+  transition:
+    transform 0.5s $ease-out,
+    box-shadow 0.5s $ease-out,
+    border-color 0.5s $ease-out;
+}
+
+.current .card {
+  border-color: color-mix(in srgb, var(--fill) 45%, var(--c-border));
+  box-shadow: $shadow;
+
+  @include motion-safe {
+    transform: translateY(-4px);
+  }
+}
+
+.title {
+  @include heading(5);
+  margin: 0 0 0.5rem;
+  font-size: 1.0625rem;
+}
+
+.text {
+  margin: 0;
+  color: var(--c-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.duration {
+  align-self: flex-start;
+  margin: auto 0 0;
+  padding: 0.3rem 0.65rem;
+  border-radius: $radius-pill;
+  background: var(--c-bg-alt);
+  color: var(--c-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.4s $ease,
+    color 0.4s $ease;
+}
+
+// Keeps a gap above the chip; `margin-top: auto` pins it to the card bottom.
+.text:has(+ .duration) {
+  margin-bottom: 1rem;
+}
+
+.current .duration {
+  background: var(--accent);
+  color: var(--brand-900);
+}
+
+/* Accessibility panel's "reduce motion" toggle. */
+:global(:root[data-reduce-motion='true']) {
+  .current .node::before {
+    animation: none;
+  }
+
+  .current .card {
+    transform: none;
+  }
+}

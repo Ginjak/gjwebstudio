@@ -1,0 +1,57 @@
+.form {
+  max-width: 44rem;
+}
+
+.row {
+  display: grid;
+  gap: 0 1.25rem;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.summary {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid #b3261e;
+  border-radius: $radius-sm;
+  background: #fdecea;
+  color: #7f1d17;
+
+  @include focus-ring(2px);
+
+  ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+    font-size: 0.9375rem;
+  }
+}
+
+:global(:root[data-theme='dark']) .summary {
+  background: rgba(179, 38, 30, 0.2);
+  color: #ffb4ab;
+}
+
+.summaryTitle {
+  margin: 0;
+  font-weight: 700;
+}
+
+.privacyLink {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Visually hidden but still submitted — bots fill it in, people never see it. */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.srStatus {
+  @include visually-hidden;
+}

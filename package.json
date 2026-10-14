@@ -1,0 +1,27 @@
+{
+  "name": "gj-web-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GJ Web Studio — WordPress development, maintenance and SEO. Next.js 15 App Router, bilingual (LT/EN), WCAG 2.2 AA.",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write \"src/**/*.{js,jsx,scss,json}\""
+  },
+  "dependencies": {
+    "next": "15.5.25",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "eslint": "8.57.1",
+    "eslint-config-next": "15.5.25",
+    "prettier": "3.4.2",
+    "sass": "1.104.1"
+  }
+}

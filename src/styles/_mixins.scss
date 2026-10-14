@@ -1,0 +1,118 @@
+@use 'sass:map';
+@use './tokens' as *;
+
+// ---------------------------------------------------------------------------
+// MIXINS — auto-injected into every .scss file.
+// ---------------------------------------------------------------------------
+
+/// Min-width media query. Usage: `@include up(lg) { ... }`
+@mixin up($key) {
+  @media (min-width: map.get($bp, $key)) {
+    @content;
+  }
+}
+
+/// Max-width media query (one pixel below the breakpoint).
+@mixin down($key) {
+  @media (max-width: calc(#{map.get($bp, $key)} - 1px)) {
+    @content;
+  }
+}
+
+/// Centred, padded content container.
+@mixin container($max: $container-max) {
+  width: 100%;
+  max-width: $max;
+  margin-inline: auto;
+  padding-inline: $gutter;
+
+  @include up(md) {
+    padding-inline: $gutter-lg;
+  }
+}
+
+/// Heading styles by level.
+@mixin heading($level: 2) {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+
+  @if $level == 1 {
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+  } @else if $level == 2 {
+    font-size: clamp(1.85rem, 1.25rem + 2.4vw, 3rem);
+  } @else if $level == 3 {
+    font-size: clamp(1.45rem, 1.1rem + 1.4vw, 2.125rem);
+  } @else if $level == 4 {
+    font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.5rem);
+  } @else {
+    font-size: 1.0625rem;
+  }
+}
+
+/// Body copy.
+@mixin body($size: md) {
+  font-family: var(--font-body);
+  line-height: var(--line-height-body);
+
+  @if $size == lg {
+    font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  } @else if $size == sm {
+    font-size: 0.9375rem;
+  } @else {
+    font-size: 1.0625rem;
+  }
+}
+
+/// Small print / meta.
+@mixin meta {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--c-muted);
+}
+
+/// Consistent, always-visible keyboard focus ring.
+@mixin focus-ring($offset: 3px) {
+  &:focus-visible {
+    outline: 3px solid var(--c-focus);
+    outline-offset: $offset;
+    border-radius: $radius-sm;
+  }
+}
+
+/// Screen-reader only, but focusable.
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/// Respect reduced motion for any animated block.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+/// Clamp text to N lines.
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/// Vertical section rhythm.
+@mixin section-space($scale: 1) {
+  padding-block: calc(var(--section-space) * #{$scale});
+}

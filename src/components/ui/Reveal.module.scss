@@ -1,0 +1,53 @@
+.reveal {
+  will-change: opacity, transform;
+  transition:
+    opacity $dur-slow $ease-out,
+    transform $dur-slow $ease-out;
+}
+
+.visible {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+}
+
+.fade {
+  opacity: 0;
+}
+
+.zoom {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.slide-left {
+  opacity: 0;
+  transform: translate3d(-32px, 0, 0);
+}
+
+.slide-right {
+  opacity: 0;
+  transform: translate3d(32px, 0, 0);
+}
+
+.none {
+  opacity: 1;
+}
+
+// Without JavaScript nothing should ever stay hidden.
+:global(.no-js) .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

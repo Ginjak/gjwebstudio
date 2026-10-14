@@ -1,0 +1,227 @@
+.trigger {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: $z-a11y;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--brand-700);
+  border-radius: 50%;
+  background: var(--c-bg);
+  color: var(--brand-700);
+  box-shadow: $shadow;
+  transition:
+    background-color $dur-hover $ease-hover,
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover,
+    transform $dur-fast $ease;
+
+  @include focus-ring(3px);
+
+  &:hover {
+    background: var(--brand-700);
+    color: #fff;
+  }
+}
+
+:global(:root[data-theme='dark']) .trigger {
+  border-color: var(--accent);
+  color: var(--accent);
+
+  &:hover {
+    background: var(--accent);
+    color: var(--brand-900);
+  }
+}
+
+/* Over a dark section (or the footer) the purple hover would blend in, so use
+   the brand yellow instead. */
+.trigger.onDark:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--brand-900);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-a11y;
+  display: grid;
+  place-items: end start;
+  padding: 1rem;
+  background: rgba(11, 10, 24, 0.5);
+
+  @include up(md) {
+    padding: 1.5rem;
+  }
+}
+
+.panel {
+  width: min(24rem, 100%);
+  max-height: min(80vh, 40rem);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-lg;
+  background: var(--c-bg);
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--c-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-fg);
+
+  @include focus-ring(2px);
+
+  &:hover {
+    background: var(--c-bg-alt);
+  }
+}
+
+.body {
+  flex: 1;
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.fieldset {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--c-fg);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-pill;
+}
+
+.segment {
+  padding: 0.5rem 0.4rem;
+  min-height: 40px;
+  border: 0;
+  border-radius: $radius-pill;
+  background: transparent;
+  color: var(--c-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+
+  @include focus-ring(2px);
+
+  &:hover {
+    background: var(--c-bg-alt);
+  }
+}
+
+.segmentActive {
+  background: var(--brand-700);
+  color: #fff;
+
+  &:hover {
+    background: var(--brand-600);
+  }
+}
+
+.toggles {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.toggleLabel {
+  font-size: 0.9375rem;
+  color: var(--c-fg);
+}
+
+.switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid var(--c-border);
+  border-radius: $radius-pill;
+  background: var(--c-bg-alt);
+  transition:
+    background-color $dur-fast $ease,
+    border-color $dur-fast $ease;
+
+  @include focus-ring(2px);
+}
+
+.knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--c-muted);
+  transition:
+    transform $dur-fast $ease,
+    background-color $dur-fast $ease;
+}
+
+.switchOn {
+  background: var(--brand-700);
+  border-color: var(--brand-700);
+
+  .knob {
+    background: #fff;
+    transform: translateX(22px);
+  }
+}
+
+:global(:root[data-theme='dark']) .switchOn {
+  background: var(--accent);
+  border-color: var(--accent);
+
+  .knob {
+    background: var(--brand-900);
+  }
+}

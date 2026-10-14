@@ -1,0 +1,28 @@
+.wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--c-bg-alt);
+  line-height: 0;
+}
+
+.rounded {
+  border-radius: $radius;
+}
+
+.fillWrap {
+  width: 100%;
+  height: 100%;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform $dur-slow $ease;
+}
+
+.wrap:hover .img {
+  @include motion-safe {
+    transform: scale(1.03);
+  }
+}

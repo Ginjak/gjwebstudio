@@ -1,0 +1,380 @@
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ==========================================================================
+   Card — same look as the home services card (dark purple, subtle glow)
+   ========================================================================== */
+.card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 24rem;
+  padding: clamp(1.75rem, 1rem + 3vw, 3.5rem);
+  border: 1px solid var(--c-border);
+  border-radius: $radius-lg;
+  background: var(--c-surface);
+  touch-action: pan-y; // horizontal swipes are ours, vertical scroll stays native
+  user-select: none;
+
+  --c-fg-card: var(--c-fg);
+  --c-body-card: var(--c-body);
+  --c-muted-card: var(--c-muted);
+  --line-card: var(--c-border);
+}
+
+:global(:root:not([data-contrast='high'])) .card {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--brand-700);
+  box-shadow: $shadow-lg;
+
+  --c-fg-card: #fff;
+  --c-body-card: rgba(255, 255, 255, 0.88);
+  --c-muted-card: rgba(255, 255, 255, 0.68);
+  --line-card: rgba(255, 255, 255, 0.16);
+  --c-focus: var(--accent);
+
+  .glow {
+    display: block;
+  }
+}
+
+/* Tone-on-tone depth that drifts a little with each slide. */
+.glow {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(56px);
+    transition: translate 1s $ease-out;
+  }
+
+  &::before {
+    top: -40%;
+    right: -15%;
+    width: 26rem;
+    height: 26rem;
+    background: var(--brand-600);
+    opacity: 0.5;
+    translate: calc(var(--active, 0) * -1.25rem) calc(var(--active, 0) * 0.75rem);
+  }
+
+  &::after {
+    bottom: -45%;
+    left: -10%;
+    width: 20rem;
+    height: 20rem;
+    background: var(--brand-900);
+    opacity: 0.55;
+    translate: calc(var(--active, 0) * 1rem) 0;
+  }
+}
+
+.mark {
+  position: absolute;
+  top: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
+  right: clamp(1.25rem, 0.75rem + 2vw, 2.75rem);
+  color: var(--accent);
+  fill: var(--accent);
+  opacity: 0.9;
+}
+
+/* --- Slide content --------------------------------------------------------- */
+.slides {
+  flex: 1;
+  display: flex;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 52rem;
+
+  // hidden → shown restarts these, so every change animates in
+  > * {
+    @include motion-safe {
+      animation: slide-in 0.6s $ease-out both;
+    }
+  }
+
+  > :nth-child(2) {
+    animation-delay: 60ms;
+  }
+
+  > :nth-child(3) {
+    animation-delay: 140ms;
+  }
+}
+
+// Enter from the side we're moving towards.
+.card[data-dir='prev'] .slide > * {
+  --from-x: -28px;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--from-x, 28px));
+    filter: blur(4px);
+  }
+}
+
+.rating {
+  margin: 0 0 1.25rem;
+}
+
+.stars {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.star {
+  color: var(--accent);
+  fill: var(--accent);
+}
+
+.quote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  flex: 1;
+
+  p {
+    margin: 0;
+    color: var(--c-fg-card);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 1rem + 1.5vw, 2rem);
+    font-weight: 600;
+    line-height: 1.38;
+    text-wrap: pretty;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-card);
+}
+
+.author {
+  color: var(--c-body-card);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.project {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--c-fg-card);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+
+  @include focus-ring(3px);
+
+  svg {
+    transition: transform 0.55s $ease-out;
+  }
+
+  &:hover {
+    color: var(--c-fg-card);
+
+    svg {
+      transform: translateX(5px);
+    }
+  }
+}
+
+/* --- Controls -------------------------------------------------------------- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.counter {
+  margin: 0;
+  color: var(--c-muted-card);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+
+  strong {
+    color: var(--c-fg-card);
+    font-size: 1.25rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line-card);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-fg-card);
+  cursor: pointer;
+  transition:
+    background-color $dur-hover $ease-hover,
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  @include focus-ring(3px);
+
+  &:hover {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--brand-900);
+  }
+}
+
+.prev svg {
+  rotate: 180deg;
+}
+
+/* ==========================================================================
+   Review chips (with progress bar)
+   ========================================================================== */
+.chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.6rem;
+}
+
+.chip {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 52px;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  background: var(--c-surface);
+  color: var(--c-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover,
+    translate 0.4s $ease-out;
+
+  @include focus-ring(2px);
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--c-fg) 35%, var(--c-border));
+    color: var(--c-fg);
+  }
+}
+
+.chipActive {
+  border-color: var(--brand-700);
+  color: var(--c-fg);
+
+  @include motion-safe {
+    translate: 0 -2px;
+  }
+
+  .chipNum {
+    background: var(--brand-700);
+    color: #fff;
+  }
+}
+
+:global(:root[data-theme='dark']) .chipActive {
+  border-color: var(--accent);
+
+  .chipNum {
+    background: var(--accent);
+    color: var(--brand-900);
+  }
+}
+
+.chipNum {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--c-bg-alt);
+  color: var(--c-muted);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  transition:
+    background-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+}
+
+.chipLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Progress along the bottom edge of the active chip while rotating — its end
+   advances the slider (see onAnimationEnd). Removed once rotation stops. */
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: left;
+  animation: progress var(--interval, 7s) linear forwards;
+}
+
+@keyframes progress {
+  from {
+    scale: 0 1;
+  }
+
+  to {
+    scale: 1 1;
+  }
+}
+
+/* ==========================================================================
+   Accessibility modes
+   ========================================================================== */
+:global(:root[data-reduce-motion='true']) {
+  .slide > * {
+    animation: none;
+  }
+
+  .chipActive {
+    translate: none;
+  }
+}

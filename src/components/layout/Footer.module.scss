@@ -1,0 +1,185 @@
+.footer {
+  background: var(--brand-700);
+  color: rgba(255, 255, 255, 0.8);
+
+  --c-fg: #fff;
+  --c-border: rgba(255, 255, 255, 0.16);
+  --c-focus: var(--accent);
+}
+
+.inner {
+  @include container($container-wide);
+  display: grid;
+  gap: 2.5rem;
+  padding-block: 4rem 3rem;
+  grid-template-columns: 1fr;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up(lg) {
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    gap: 3rem;
+  }
+}
+
+.brand {
+  display: inline-flex;
+  color: #fff;
+  text-decoration: none;
+
+  @include focus-ring(4px);
+
+  /* No hover colour change (overrides the global a:hover). */
+  &:hover {
+    color: #fff;
+  }
+}
+
+.tagline {
+  margin: 1rem 0 0;
+  max-width: 24rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.socials {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--c-border);
+  border-radius: 50%;
+  color: #fff;
+  transition:
+    background-color $dur-hover $ease-hover,
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  @include focus-ring(3px);
+
+  &:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--brand-900);
+  }
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+  font-size: 0.8125rem;
+}
+
+.statusDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent-2);
+}
+
+.colTitle {
+  margin: 0 0 1rem;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition: color $dur-fast $ease;
+
+  @include focus-ring(3px);
+
+  &:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
+.address {
+  margin: 1.25rem 0 0;
+  font-size: 0.9375rem;
+  font-style: normal;
+  line-height: 1.7;
+}
+
+.bottom {
+  border-top: 1px solid var(--c-border);
+}
+
+.bottomInner {
+  @include container($container-wide);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 1.5rem;
+
+  @include up(lg) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.copyright {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legalLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+
+  @include focus-ring(3px);
+
+  &:hover {
+    color: var(--accent);
+  }
+}

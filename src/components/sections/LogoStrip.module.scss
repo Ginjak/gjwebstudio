@@ -1,0 +1,101 @@
+.wrap {
+  position: relative;
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 1.5rem;
+  color: var(--c-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Soft fade at both edges so words slide in and out instead of being cut. */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+
+  @include motion-safe {
+    animation: marquee 45s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Gap is also applied as trailing padding so the seam between copies matches. */
+.list {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 3rem;
+  margin: 0;
+  padding: 0 3rem 0 0;
+  list-style: none;
+
+  @include up(md) {
+    gap: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+.item {
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.35rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  opacity: 0.55;
+  transition: opacity $dur-fast $ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* Reduced motion: no animation, no duplicate — a swipeable row. */
+@mixin still {
+  .marquee {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .track {
+    animation: none;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .copy {
+    display: none;
+  }
+
+  .list {
+    padding-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @include still;
+}
+
+:global(:root[data-reduce-motion='true']) {
+  @include still;
+}

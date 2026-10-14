@@ -1,0 +1,20 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding-block: 1rem;
+}
+
+.svg {
+  width: min(100%, 261px);
+  height: auto;
+  opacity: 0.9;
+
+  @include motion-safe {
+    animation: float 9s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}

@@ -1,0 +1,135 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  border: 2px solid transparent;
+  border-radius: $radius-pill;
+  font-family: var(--font-body);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  // 24px minimum target size (WCAG 2.2 AA – 2.5.8)
+  min-height: 44px;
+  transition:
+    background-color $dur-hover $ease-hover,
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover,
+    transform $dur-fast $ease;
+
+  @include focus-ring;
+
+  &:active:not(.disabled) {
+    transform: translateY(1px);
+  }
+}
+
+.label {
+  display: inline-block;
+}
+
+.icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+
+  svg {
+    width: 1.1em;
+    height: 1.1em;
+  }
+}
+
+/* --- Sizes --------------------------------------------------------------- */
+.sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  min-height: 40px;
+}
+
+.md {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.lg {
+  padding: 1rem 2rem;
+  font-size: 1.0625rem;
+  min-height: 52px;
+}
+
+/* --- Variants ------------------------------------------------------------ */
+.primary {
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+
+  &:hover:not(.disabled) {
+    background: var(--btn-primary-bg-hover);
+    border-color: var(--btn-primary-bg-hover);
+    color: var(--btn-primary-fg);
+  }
+}
+
+.secondary {
+  background: transparent;
+  border-color: var(--btn-secondary-border);
+  color: var(--btn-secondary-fg);
+
+  &:hover:not(.disabled) {
+    background: var(--btn-secondary-border);
+    color: var(--c-bg);
+  }
+}
+
+.ghost {
+  background: transparent;
+  border-color: var(--btn-ghost-border);
+  color: var(--btn-ghost-fg);
+
+  &:hover:not(.disabled) {
+    border-color: var(--c-fg);
+    background: var(--c-bg-alt);
+    color: var(--c-fg);
+  }
+}
+
+.link {
+  padding-inline: 0;
+  min-height: 0;
+  background: none;
+  border: 0;
+  color: var(--c-link);
+  text-decoration: underline;
+  text-decoration-color: var(--c-underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+
+  .icon {
+    transition: transform $dur $ease;
+  }
+
+  &:hover:not(.disabled) {
+    color: var(--c-link-hover);
+
+    .icon {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.icon-only,
+.iconOnly {
+  padding: 0.6rem;
+  aspect-ratio: 1;
+}
+
+.full {
+  width: 100%;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

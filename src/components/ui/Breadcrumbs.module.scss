@@ -1,0 +1,41 @@
+.wrap {
+  margin-bottom: 1.5rem;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.link {
+  color: var(--c-muted);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--c-fg);
+    text-decoration: underline;
+  }
+
+  @include focus-ring(2px);
+}
+
+.sep {
+  color: var(--c-border);
+}
+
+.current {
+  color: var(--c-fg);
+  font-weight: 600;
+}

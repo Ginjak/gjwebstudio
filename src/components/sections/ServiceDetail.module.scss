@@ -1,0 +1,414 @@
+/* Shared hover pieces ------------------------------------------------------ */
+@mixin card-base {
+  --tone: var(--brand-700);
+  --tone-fg: #fff;
+
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  background: var(--c-surface);
+
+  // Top accent line that draws in on hover.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--tone);
+    transform-origin: left;
+    scale: 0 1;
+    transition: scale 0.6s $ease-out;
+  }
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--tone) 35%, var(--c-border));
+    box-shadow: $shadow-lg;
+
+    &::before {
+      scale: 1 1;
+    }
+
+    @include motion-safe {
+      translate: 0 -4px;
+    }
+  }
+}
+
+// These cards are Reveal elements; Reveal's stylesheet may load after this one
+// with its own `transition`, so the doubled class wins and keeps Reveal's fade.
+@mixin card-transition {
+  transition:
+    opacity $dur-slow $ease-out,
+    transform $dur-slow $ease-out,
+    translate 0.55s $ease-out,
+    box-shadow 0.55s $ease-out,
+    border-color 0.55s $ease-out;
+}
+
+/* ==========================================================================
+   Quick facts
+   ========================================================================== */
+.facts {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include up(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li > * {
+    width: 100%;
+  }
+}
+
+.fact {
+  @include card-base;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.facts .fact {
+  @include card-transition;
+}
+
+.icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: $radius-sm;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  transition:
+    background-color 0.45s $ease-hover,
+    color 0.45s $ease-hover,
+    transform 0.6s $ease-out;
+
+  .fact:hover & {
+    background: var(--tone);
+    color: var(--tone-fg);
+
+    @include motion-safe {
+      transform: rotate(-6deg) scale(1.06);
+    }
+  }
+}
+
+.factLabel {
+  margin: 0 0 0.3rem;
+  color: var(--c-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.factValue {
+  margin: 0;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.factNote {
+  margin: 0.3rem 0 0;
+  color: var(--c-muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   What's included
+   ========================================================================== */
+.included {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li > * {
+    width: 100%;
+  }
+}
+
+.feature {
+  @include card-base;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 0.85rem 0.9rem;
+  padding: 1.35rem 1.5rem;
+}
+
+.included .feature {
+  @include card-transition;
+}
+
+// Big faint number in the corner.
+.num {
+  position: absolute;
+  top: 0.75rem;
+  right: 1.1rem;
+  color: var(--c-border);
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.45s $ease-hover;
+
+  .feature:hover & {
+    color: color-mix(in srgb, var(--tone) 30%, var(--c-border));
+  }
+}
+
+.check {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  color: var(--brand-900);
+  transition:
+    background-color 0.45s $ease-hover,
+    transform 0.6s $ease-out;
+
+  .feature:hover & {
+    background: var(--accent);
+
+    @include motion-safe {
+      transform: scale(1.12);
+    }
+  }
+}
+
+.featureText {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-right: 2.5rem; // clear of the corner number
+  color: var(--c-fg);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Problem → solution
+   ========================================================================== */
+.problems {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include up(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li > * {
+    width: 100%;
+  }
+}
+
+.ps {
+  @include card-base;
+
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius-lg;
+}
+
+.problems .ps {
+  @include card-transition;
+}
+
+.problem,
+.solution {
+  padding: 1.5rem 1.6rem;
+}
+
+.problem {
+  flex: 1;
+}
+
+// The solution half: dark purple, brightens on hover.
+.solution {
+  background: var(--brand-700);
+  color: rgba(255, 255, 255, 0.88);
+  transition: background-color 0.45s $ease-hover;
+
+  .ps:hover & {
+    background: var(--brand-600);
+  }
+
+  .psLabel {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .psText {
+    color: #fff;
+    font-weight: 600;
+  }
+}
+
+// Round arrow sitting on the seam between the two halves.
+.arrow {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  width: 38px;
+  height: 38px;
+  margin-block: -19px;
+  border: 3px solid var(--c-surface);
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--brand-900);
+  transition: transform 0.6s $ease-out;
+
+  svg {
+    rotate: 90deg; // points down, from problem to solution
+  }
+
+  .ps:hover & {
+    @include motion-safe {
+      transform: translateY(3px);
+    }
+  }
+}
+
+.psLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.6rem;
+  color: var(--c-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.psMark,
+.psMarkOff {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.psMarkOff {
+  background: color-mix(in srgb, var(--accent-3) 18%, transparent);
+  color: var(--accent-3);
+}
+
+.psMark {
+  background: var(--accent);
+  color: var(--brand-900);
+}
+
+.psText {
+  margin: 0;
+  color: var(--c-body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Theme & accessibility modes
+   ========================================================================== */
+:global(:root[data-theme='dark']) {
+  .fact,
+  .feature,
+  .ps {
+    --tone: var(--accent);
+    --tone-fg: var(--brand-900);
+  }
+
+  .icon {
+    background: rgba(106, 99, 201, 0.18);
+    color: var(--brand-200);
+  }
+
+  // Restated: the rule above has the same specificity as the hover rule and
+  // comes later, so hover needs repeating here to still win.
+  .fact:hover .icon {
+    background: var(--tone);
+    color: var(--tone-fg);
+  }
+
+  .solution {
+    background: var(--brand-600);
+  }
+
+  .ps:hover .solution {
+    background: var(--brand-500);
+  }
+}
+
+:global(:root[data-contrast='high']) {
+  .solution,
+  .ps:hover .solution {
+    background: var(--c-bg);
+    border-top: 2px solid var(--c-fg);
+
+    .psText,
+    .psLabel {
+      color: var(--c-fg);
+    }
+  }
+}
+
+:global(:root[data-reduce-motion='true']) {
+  .fact,
+  .feature,
+  .ps {
+    translate: none !important;
+  }
+
+  .icon,
+  .check,
+  .arrow {
+    transform: none !important;
+  }
+}

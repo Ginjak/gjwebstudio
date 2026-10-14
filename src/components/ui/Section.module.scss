@@ -1,0 +1,130 @@
+.section {
+  --section-scale: 1;
+  position: relative;
+  padding-block: calc(var(--section-space) * var(--section-scale));
+  background: var(--c-bg);
+  color: var(--c-body);
+}
+
+.inner {
+  @include container;
+}
+
+.w-wide {
+  max-width: $container-wide;
+}
+
+.w-narrow {
+  max-width: $container-narrow;
+}
+
+/* --- Backgrounds --------------------------------------------------------- */
+.bg-default {
+  background: var(--c-bg);
+}
+
+.bg-alt {
+  background: var(--c-bg-alt);
+}
+
+.bg-none {
+  background: transparent;
+  padding-block: 0;
+}
+
+.bg-dark {
+  background: var(--brand-700);
+  color: rgba(255, 255, 255, 0.86);
+
+  --c-fg: #ffffff;
+  --c-body: rgba(255, 255, 255, 0.86);
+  --c-muted: rgba(255, 255, 255, 0.68);
+  --c-border: rgba(255, 255, 255, 0.18);
+  --c-link: var(--accent);
+  --c-link-hover: #ffffff;
+  --c-surface: rgba(255, 255, 255, 0.05);
+  --c-focus: var(--accent);
+  --btn-primary-bg: var(--accent);
+  --btn-primary-fg: var(--brand-900);
+  --btn-primary-bg-hover: #ffffff;
+  --btn-secondary-fg: #ffffff;
+  --btn-secondary-border: rgba(255, 255, 255, 0.5);
+  --btn-ghost-fg: #ffffff;
+  --btn-ghost-border: rgba(255, 255, 255, 0.28);
+}
+
+.bg-accent {
+  background: var(--accent);
+  color: var(--brand-900);
+
+  --c-fg: var(--brand-900);
+  --c-body: #2a2540;
+  --c-muted: #4a4360;
+  --c-border: rgba(18, 16, 47, 0.2);
+  --c-link: var(--brand-700);
+  --c-link-hover: var(--brand-900);
+  --c-surface: rgba(255, 255, 255, 0.55);
+  --btn-primary-bg: var(--brand-700);
+  --btn-primary-fg: #ffffff;
+  --btn-primary-bg-hover: var(--brand-900);
+  --btn-secondary-fg: var(--brand-900);
+  --btn-secondary-border: var(--brand-900);
+  --btn-ghost-fg: var(--brand-900);
+  --btn-ghost-border: rgba(18, 16, 47, 0.3);
+}
+
+/* --- Header -------------------------------------------------------------- */
+.header {
+  max-width: 46rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Wide header: long headings settle on ~2 lines instead of 4, and the lead
+   keeps a comfortable ~75-character line. */
+.wideHeader {
+  max-width: 62rem;
+
+  .lead {
+    max-width: 50rem;
+  }
+}
+
+.center {
+  .header {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--c-muted);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  @include heading(2);
+  margin: 0;
+}
+
+.lead {
+  margin: 1rem 0 0;
+  color: var(--c-body);
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  max-width: 42rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}

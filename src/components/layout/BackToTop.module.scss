@@ -1,0 +1,42 @@
+.button {
+  position: fixed;
+  right: 1rem;
+  bottom: 5.5rem;
+  z-index: $z-sticky;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--c-border);
+  border-radius: 50%;
+  background: var(--c-bg);
+  color: var(--c-fg);
+  box-shadow: $shadow;
+  transition:
+    opacity $dur $ease,
+    transform $dur $ease,
+    background-color $dur-hover $ease-hover,
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  @include focus-ring(3px);
+
+  &:hover {
+    background: var(--brand-700);
+    border-color: var(--brand-700);
+    color: #fff;
+  }
+
+  @include up(md) {
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+}
+
+/* Over a dark section (or the footer) the purple hover would blend in, so use
+   the brand yellow instead. */
+.button.onDark:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--brand-900);
+}

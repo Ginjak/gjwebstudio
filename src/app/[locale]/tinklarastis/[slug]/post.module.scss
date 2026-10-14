@@ -1,0 +1,151 @@
+.meta {
+  margin: 1.5rem 0 0;
+  color: var(--c-muted);
+  font-size: 0.875rem;
+}
+
+.layout {
+  display: grid;
+  gap: 2.5rem;
+
+  @include up(lg) {
+    grid-template-columns: 16rem 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.toc {
+  padding: 1.25rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  background: var(--c-bg-alt);
+
+  @include up(lg) {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+  }
+}
+
+.tocTitle {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.tocList {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9375rem;
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  a {
+    color: var(--c-body);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--c-link);
+      text-decoration: underline;
+    }
+  }
+}
+
+.article {
+  min-width: 0;
+}
+
+.quote {
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+  border-left: 4px solid var(--accent);
+
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  p {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.45;
+    color: var(--c-fg);
+  }
+
+  figcaption {
+    margin-top: 0.6rem;
+    color: var(--c-muted);
+    font-size: 0.875rem;
+  }
+}
+
+.callout {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: $radius;
+  background: var(--brand-50);
+  border-left: 4px solid var(--brand-500);
+  color: var(--brand-800);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+:global(:root[data-theme='dark']) .callout {
+  background: rgba(106, 99, 201, 0.14);
+  color: var(--c-body);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--c-border);
+}
+
+.authorPhoto {
+  flex: 0 0 auto;
+  width: 84px;
+  border-radius: 50%;
+}
+
+.authorLabel {
+  margin: 0;
+  color: var(--c-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.authorName {
+  margin: 0.2rem 0 0;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.authorRole {
+  margin: 0.1rem 0 0;
+  color: var(--c-muted);
+  font-size: 0.875rem;
+}
+
+.backRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--c-border);
+}

@@ -1,0 +1,305 @@
+/* Contents of a desktop mega menu. The sliding panel itself (position,
+   background, open/close animation) lives in Header.module.scss. */
+
+.inner {
+  @include container($container-wide);
+  display: grid;
+  grid-template-columns: minmax(13rem, 17rem) 1fr;
+  gap: 2.5rem;
+  padding-block: 2rem 2.25rem;
+
+  @include up(xl) {
+    gap: 3.5rem;
+  }
+}
+
+.withPromo {
+  grid-template-columns: minmax(13rem, 17rem) 1fr minmax(15rem, 18rem);
+}
+
+/* --- Intro column ---------------------------------------------------------- */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-right: 2rem;
+  border-right: 1px solid var(--c-border);
+}
+
+.title {
+  margin: 0;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.text {
+  margin: 0;
+  color: var(--c-muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  color: var(--c-link);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  @include focus-ring(3px);
+
+  svg {
+    transition: transform $dur-hover $ease-hover;
+  }
+
+  &:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+/* --- Link list (services, about) ------------------------------------------- */
+.links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.25rem 1rem;
+  align-content: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.linksTwoCol {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: $radius;
+  color: var(--c-fg);
+  text-decoration: none;
+  transition: background-color $dur-hover $ease-hover;
+
+  @include focus-ring(0);
+
+  &:hover {
+    background: var(--c-bg-alt);
+    color: var(--c-fg);
+  }
+
+  &:hover .linkIcon {
+    background: var(--brand-700);
+    color: #fff;
+  }
+
+  :global(:root[data-contrast='high']) &:hover .linkLabel {
+    text-decoration: underline;
+  }
+}
+
+.linkActive .linkLabel {
+  text-decoration: underline;
+  text-decoration-color: var(--c-underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+
+.linkIcon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-sm;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  transition:
+    background-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+}
+
+:global(:root[data-theme='dark']) {
+  .linkIcon {
+    background: rgba(106, 99, 201, 0.18);
+    color: var(--brand-200);
+  }
+
+  .link:hover .linkIcon {
+    background: var(--accent);
+    color: var(--brand-900);
+  }
+}
+
+.linkText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.linkLabel {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.linkMeta {
+  color: var(--c-muted);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+/* --- Image cards (work, blog) ---------------------------------------------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--c-fg);
+  text-decoration: none;
+  border-radius: $radius;
+
+  @include focus-ring(4px);
+
+  &:hover {
+    color: var(--c-fg);
+  }
+
+  &:hover .cardTitleText,
+  &:focus-visible .cardTitleText {
+    background-size: 100% 2px;
+  }
+}
+
+.cardMedia {
+  margin-bottom: 0.4rem;
+}
+
+/* Media zooms the image on hover of its own wrapper; zoom on the whole card. */
+.card:hover :global(img) {
+  @include motion-safe {
+    transform: scale(1.03);
+  }
+}
+
+.cardMeta {
+  color: var(--c-muted);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.cardTitle {
+  @include line-clamp(2);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Same draw-in underline as the card titles elsewhere (see Card.module.scss).
+   On an inline span with box-decoration-break, it follows every line. */
+.cardTitleText {
+  background-image: linear-gradient(var(--c-underline), var(--c-underline));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 0.6s $ease-out;
+}
+
+/* --- Promo card (services) ------------------------------------------------- */
+.promo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  border-radius: $radius-lg;
+  background: var(--brand-700);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+:global(:root[data-theme='dark']) .promo {
+  background: var(--brand-600);
+}
+
+:global(:root[data-contrast='high']) .promo {
+  border: 2px solid var(--c-fg);
+  background: var(--c-bg);
+  color: var(--c-fg);
+}
+
+.promoIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.25rem;
+  border-radius: $radius-sm;
+  background: var(--accent);
+  color: var(--brand-900);
+}
+
+.promoTitle {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+
+  :global(:root[data-contrast='high']) & {
+    color: var(--c-fg);
+  }
+}
+
+.promoText {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.promoLink {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding: 0.6rem 1.1rem;
+  border-radius: $radius-pill;
+  background: var(--accent);
+  color: var(--brand-900);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color $dur-hover $ease-hover;
+
+  --c-focus: var(--accent);
+  @include focus-ring(3px);
+
+  &:hover {
+    background: var(--accent-strong);
+    color: var(--brand-900);
+  }
+}
+
+:global(:root[data-reduce-motion='true']) .card:hover :global(img) {
+  transform: none;
+}

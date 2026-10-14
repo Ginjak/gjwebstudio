@@ -1,0 +1,165 @@
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: 1fr;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &[data-columns='3'] {
+    @include up(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &[data-columns='4'] {
+    @include up(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li > * {
+    width: 100%;
+  }
+}
+
+/* Hover and keyboard focus share the same "active" look. */
+@mixin active {
+  .card:hover &,
+  .card:focus-within & {
+    @content;
+  }
+}
+
+.card {
+  --tone: var(--brand-700);
+  --tone-fg: #fff;
+
+  height: 100%;
+  padding: 1.75rem;
+
+  /* Accent line that draws across the top edge. */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--tone);
+    transform-origin: left;
+    scale: 0 1;
+    transition: scale 0.6s $ease-out;
+  }
+
+  &:hover::before,
+  &:focus-within::before {
+    scale: 1 1;
+  }
+}
+
+:global(:root[data-theme='dark']) .card {
+  --tone: var(--accent);
+  --tone-fg: var(--brand-900);
+}
+
+// Must come before .icon's hover rule (same specificity) so hover still wins.
+:global(:root[data-theme='dark']) .icon {
+  background: rgba(106, 99, 201, 0.18);
+  color: var(--brand-200);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1.25rem;
+  border-radius: $radius;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  transition:
+    background-color 0.45s $ease-hover,
+    color 0.45s $ease-hover,
+    transform 0.6s $ease-out;
+
+  /* Tile fills with the brand colour and gives a small tilt. */
+  @include active {
+    background: var(--tone);
+    color: var(--tone-fg);
+
+    @include motion-safe {
+      transform: rotate(-6deg) scale(1.06);
+    }
+  }
+}
+
+.title {
+  @include heading(4);
+  margin: 0 0 0.6rem;
+}
+
+.excerpt {
+  margin: 0 0 1.5rem;
+  color: var(--c-body);
+  font-size: 0.9688rem;
+  line-height: 1.65;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--c-border);
+  transition: border-color 0.45s $ease-hover;
+
+  @include active {
+    border-top-color: color-mix(in srgb, var(--tone) 35%, var(--c-border));
+  }
+}
+
+.price {
+  padding: 0.25rem 0.65rem;
+  border-radius: $radius-pill;
+  background: var(--c-bg-alt);
+  color: var(--c-fg);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto; // stays right even when there's no price
+  color: var(--c-link);
+  font-size: 0.875rem;
+  font-weight: 700;
+
+  svg {
+    transition: transform 0.55s $ease-out;
+  }
+
+  @include active {
+    svg {
+      transform: translateX(6px);
+    }
+  }
+}
+
+:global(:root[data-reduce-motion='true']) {
+  .icon {
+    transform: none !important;
+  }
+}

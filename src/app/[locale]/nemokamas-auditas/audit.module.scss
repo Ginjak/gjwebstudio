@@ -1,0 +1,65 @@
+.layout {
+  display: grid;
+  gap: 2.5rem;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 1.1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.title {
+  @include heading(3);
+  margin: 0 0 1.5rem;
+}
+
+.checks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.checkIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--brand-900);
+}
+
+.checkTitle {
+  @include heading(5);
+  margin: 0 0 0.3rem;
+  font-size: 1.0625rem;
+}
+
+.checkText {
+  margin: 0;
+  color: var(--c-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.formCard {
+  padding: 1.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-lg;
+  background: var(--c-surface);
+
+  @include up(md) {
+    padding: 2.25rem;
+  }
+}

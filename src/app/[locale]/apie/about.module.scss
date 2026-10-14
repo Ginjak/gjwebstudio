@@ -1,0 +1,120 @@
+.values {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li > * {
+    width: 100%;
+  }
+}
+
+/* Values: same hover language as the service cards — top accent line draws
+   in, icon tile fills and tilts, card lifts. (Card is not a link here, so the
+   card itself gets the lift; Card's own transition already covers it.) */
+.valueCard {
+  --tone: var(--brand-700);
+  --tone-fg: #fff;
+
+  height: 100%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--tone);
+    transform-origin: left;
+    scale: 0 1;
+    transition: scale 0.6s $ease-out;
+  }
+
+  &:hover {
+    box-shadow: $shadow-lg;
+
+    &::before {
+      scale: 1 1;
+    }
+
+    @include motion-safe {
+      translate: 0 -5px;
+    }
+  }
+}
+
+// Card's own transition (which may load after this file) has no `translate`;
+// the extra `.values` makes this one win so the lift animates too.
+.values .valueCard {
+  transition:
+    translate 0.55s $ease-out,
+    box-shadow 0.55s $ease-out,
+    border-color 0.55s $ease-out;
+}
+
+:global(:root[data-theme='dark']) .valueCard {
+  --tone: var(--accent);
+  --tone-fg: var(--brand-900);
+}
+
+.valueIcon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1.15rem;
+  border-radius: $radius;
+  background: var(--accent);
+  color: var(--brand-900);
+  transition:
+    background-color 0.45s $ease-hover,
+    color 0.45s $ease-hover,
+    transform 0.6s $ease-out;
+
+  .valueCard:hover & {
+    background: var(--tone);
+    color: var(--tone-fg);
+
+    @include motion-safe {
+      transform: rotate(-6deg) scale(1.06);
+    }
+  }
+}
+
+:global(:root[data-reduce-motion='true']) {
+  .valueCard:hover {
+    translate: none;
+  }
+
+  .valueIcon {
+    transform: none !important;
+  }
+}
+
+.valueTitle {
+  @include heading(5);
+  margin: 0 0 0.5rem;
+  font-size: 1.0625rem;
+}
+
+.valueText {
+  margin: 0;
+  color: var(--c-body);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}

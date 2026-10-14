@@ -1,0 +1,322 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.toggleRow {
+  display: flex;
+  justify-content: center;
+}
+
+/* Two equal columns, so the thumb is exactly half the track and can slide
+   across with a single translate. */
+.toggle {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-pill;
+  background: var(--c-bg-alt);
+}
+
+.thumb {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc((100% - 14px) / 2); // track minus padding (2×5) and gap (4), halved
+  border-radius: $radius-pill;
+  background: var(--c-bg);
+  box-shadow: $shadow-sm;
+  transition: translate 0.45s cubic-bezier(0.34, 1.3, 0.64, 1); // slight overshoot
+
+  .toggleAnnual & {
+    translate: calc(100% + 4px) 0;
+  }
+}
+
+.toggleBtn {
+  position: relative; // above the thumb
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.55rem 1.2rem;
+  border: 0;
+  border-radius: $radius-pill;
+  background: transparent;
+  color: var(--c-muted);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color $dur-hover $ease-hover;
+
+  @include focus-ring(2px);
+
+  &:hover {
+    color: var(--c-fg);
+  }
+}
+
+.toggleActive {
+  color: var(--c-fg);
+}
+
+/* High contrast: the thumb needs a visible edge against the track. */
+:global(:root[data-contrast='high']) .thumb {
+  outline: 2px solid var(--c-fg);
+  box-shadow: none;
+}
+
+.saving {
+  padding: 0.15rem 0.5rem;
+  border-radius: $radius-pill;
+  background: var(--accent);
+  color: var(--brand-900);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: 1fr;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up(xl) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  > li {
+    display: flex;
+  }
+
+  > li > * {
+    width: 100%;
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-lg;
+  background: var(--c-surface);
+}
+
+/* --- Row alignment across cards ------------------------------------------- */
+/* Each card spans 7 rows of the list grid and shares them via subgrid, so the
+   title, tagline, price, billing note, button, "best for" and features line
+   up across every card in a row, whatever their text lengths. Browsers
+   without subgrid keep the flex column above. */
+$card-rows: 7;
+
+@supports (grid-template-rows: subgrid) {
+  .grid {
+    row-gap: 2rem; // between rows of cards (room for the badge on the edge)
+
+    > li,
+    > li > .card {
+      display: grid;
+      grid-row: span $card-rows;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+  }
+
+  .name { grid-row: 1; }
+  .tagline { grid-row: 2; }
+  .priceRow { grid-row: 3; }
+  .billed { grid-row: 4; }
+  .cta { grid-row: 5; align-self: start; }
+  .bestFor { grid-row: 6; }
+  .features { grid-row: 7; align-self: start; }
+}
+
+.featured {
+  border-color: var(--brand-700);
+  border-width: 2px;
+  box-shadow: $shadow;
+}
+
+:global(:root[data-theme='dark']) .featured {
+  border-color: var(--accent);
+}
+
+/* "Most popular" sits on the card's top edge, so it doesn't push the featured
+   card's content down out of line with the others. */
+.badge {
+  position: absolute;
+  top: 0;
+  left: 1.75rem;
+  translate: 0 -50%;
+  margin: 0;
+  padding: 0.3rem 0.75rem;
+  border-radius: $radius-pill;
+  background: var(--accent);
+  color: var(--brand-900);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.name {
+  @include heading(4);
+  margin: 0 0 0.4rem;
+}
+
+.tagline {
+  margin: 0 0 1.25rem;
+  color: var(--c-muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+}
+
+.from {
+  color: var(--c-muted);
+  font-size: 0.875rem;
+}
+
+.price {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.6rem + 1.4vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--c-fg);
+}
+
+.period {
+  color: var(--c-muted);
+  font-size: 0.9375rem;
+}
+
+.billed {
+  margin: 0.35rem 0 1.25rem;
+  color: var(--c-muted);
+  font-size: 0.8125rem;
+}
+
+.bestFor {
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--c-muted);
+
+  strong {
+    display: block;
+    color: var(--c-fg);
+  }
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid var(--c-border);
+  list-style: none;
+  font-size: 0.9375rem;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    line-height: 1.5;
+  }
+}
+
+.check {
+  flex: 0 0 auto;
+  margin-top: 0.15em;
+  color: var(--accent-strong);
+}
+
+/* --- Switch feedback ------------------------------------------------------ */
+/* Cards give a small staggered lift each time the billing period changes.
+   Two identical animations alternate so the class change replays it. The
+   <li> is animated because Reveal pins transform on the card itself. */
+.swapA,
+.swapB {
+  @include motion-safe {
+    animation: 0.55s $ease-out both;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+}
+
+.swapA {
+  animation-name: card-swap-a;
+}
+
+.swapB {
+  animation-name: card-swap-b;
+}
+
+@keyframes card-swap-a {
+  40% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes card-swap-b {
+  40% {
+    transform: translateY(-8px);
+  }
+}
+
+.billedIn {
+  @include motion-safe {
+    animation: billed-in 0.4s $ease-out both;
+  }
+}
+
+@keyframes billed-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+:global(:root[data-reduce-motion='true']) {
+  .swapA,
+  .swapB,
+  .billedIn {
+    animation: none;
+  }
+
+  .thumb {
+    transition: none;
+  }
+}
+
+.vat {
+  margin: 0;
+  color: var(--c-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}

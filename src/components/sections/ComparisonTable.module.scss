@@ -1,0 +1,282 @@
+/* ==========================================================================
+   Desktop (lg+): comparison matrix
+   ========================================================================== */
+.tableWrap {
+  display: none;
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  // One solid surface for every cell — otherwise the transparent value cells
+  // show the section's grey background next to the white label column.
+  background: var(--c-surface);
+
+  @include up(lg) {
+    display: block;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+
+  // The wrapper's border already closes the table; a line under the last row
+  // as well doubles up into a stray strip at the bottom.
+  tbody:last-of-type tr:last-child > * {
+    border-bottom: 0;
+  }
+}
+
+/* Header row: same surface as the data rows. */
+.table thead {
+  --head-bg: var(--c-surface);
+}
+
+.colHead {
+  padding: 1rem;
+  background: var(--head-bg);
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.rowHead {
+  padding: 0.9rem 1rem;
+  color: var(--c-fg);
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid var(--c-border);
+
+  // Header row: same tint as the plan-name cells beside it.
+  thead & {
+    background: var(--head-bg);
+    color: var(--c-muted);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
+
+.groupHead {
+  padding: 0.75rem 1rem;
+  background: var(--brand-700);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.cell {
+  padding: 0.9rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-body);
+}
+
+.rowHead,
+.cell {
+  transition: background-color $dur-hover $ease-hover;
+}
+
+tbody tr:hover .cell,
+tbody tr:hover .rowHead {
+  background: var(--c-bg-alt);
+}
+
+.yes {
+  display: inline-block;
+  vertical-align: middle;
+  color: #1f7a3f;
+}
+
+.no {
+  color: var(--c-muted);
+  font-size: 1.1rem;
+}
+
+:global(:root[data-theme='dark']) .yes {
+  color: #7fdca0;
+}
+
+/* ==========================================================================
+   Below lg: plan picker + list
+   ========================================================================== */
+.mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+
+  @include up(lg) {
+    display: none;
+  }
+}
+
+/* Segmented control with a sliding thumb (same feel as the billing toggle).
+   One row of equal columns; on very narrow phones it becomes a 2×2 grid and
+   the thumb moves in both directions. */
+.picker {
+  --cols: var(--count, 4);
+  --gap: 4px;
+  --pad: 5px;
+  --col: var(--index, 0);
+  --row: 0;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  gap: var(--gap);
+  padding: var(--pad);
+  border: 1px solid var(--c-border);
+  border-radius: $radius-pill;
+  background: var(--c-bg-alt);
+
+  @media (max-width: 419.98px) {
+    --cols: 2;
+    --col: var(--col2, 0); // set from JS
+    --row: var(--row2, 0);
+
+    border-radius: $radius;
+  }
+}
+
+.thumb {
+  position: absolute;
+  top: var(--pad);
+  left: var(--pad);
+  width: calc((100% - 2 * var(--pad) - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  height: calc(100% - 2 * var(--pad));
+  border-radius: $radius-pill;
+  background: var(--c-bg);
+  box-shadow: $shadow-sm;
+  translate:
+    calc(var(--col) * (100% + var(--gap)))
+    calc(var(--row) * (100% + var(--gap)));
+  transition: translate 0.45s cubic-bezier(0.34, 1.3, 0.64, 1);
+
+  @media (max-width: 419.98px) {
+    height: calc((100% - 2 * var(--pad) - var(--gap)) / 2);
+    border-radius: calc(#{$radius} - 4px);
+  }
+}
+
+.pickerBtn {
+  position: relative; // above the thumb
+  z-index: 1;
+  min-height: 44px;
+  padding: 0.5rem 0.4rem;
+  border: 0;
+  border-radius: $radius-pill;
+  background: transparent;
+  color: var(--c-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color $dur-hover $ease-hover;
+
+  @include focus-ring(2px);
+
+  &:hover {
+    color: var(--c-fg);
+  }
+}
+
+.pickerActive {
+  color: var(--c-fg);
+}
+
+:global(:root[data-contrast='high']) .thumb {
+  outline: 2px solid var(--c-fg);
+  box-shadow: none;
+}
+
+/* --- Feature list --------------------------------------------------------- */
+.planList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.group {
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  overflow: hidden;
+  background: var(--c-surface);
+}
+
+.groupTitle {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  background: var(--brand-700);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--c-border);
+  font-size: 0.9375rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  @include motion-safe {
+    animation: row-in 0.4s $ease-out both;
+    animation-delay: calc(var(--i, 0) * 35ms);
+  }
+}
+
+.rowLabel {
+  color: var(--c-fg);
+  font-weight: 500;
+}
+
+.rowValue {
+  flex: 0 0 auto;
+  max-width: 50%;
+  color: var(--c-body);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Not included: quieter, so what the plan *does* include stands out. */
+.rowOff .rowLabel {
+  color: var(--c-muted);
+  font-weight: 400;
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+:global(:root[data-reduce-motion='true']) {
+  .row {
+    animation: none;
+  }
+
+  .thumb {
+    transition: none;
+  }
+}

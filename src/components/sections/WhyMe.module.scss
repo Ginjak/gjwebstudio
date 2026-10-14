@@ -1,0 +1,271 @@
+.wrap {
+  --me-bg: var(--brand-700);
+  --me-bg-hover: var(--brand-600);
+  --me-fg: #fff;
+  --me-line: rgba(255, 255, 255, 0.12);
+  --mark-bg: var(--accent);
+  --mark-fg: var(--brand-900);
+}
+
+:global(:root[data-theme='dark']) .wrap {
+  --me-bg: var(--brand-600);
+  --me-bg-hover: var(--brand-500);
+}
+
+/* High contrast: the highlighted column becomes a plain bordered one. */
+:global(:root[data-contrast='high']) .wrap {
+  --me-bg: var(--c-bg);
+  --me-bg-hover: var(--c-bg);
+  --me-fg: var(--c-fg);
+  --me-line: var(--c-fg);
+}
+
+/* ==========================================================================
+   Desktop (lg+): three columns, the "with me" column reads as one card
+   ========================================================================== */
+.head,
+.rows,
+.row {
+  @include up(lg) {
+    display: grid;
+    grid-template-columns: 0.9fr 1.25fr 1.25fr;
+  }
+}
+
+.head {
+  display: none;
+
+  @include up(lg) {
+    align-items: end;
+  }
+
+  > span {
+    padding: 1rem 1.5rem;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+}
+
+.head > .headMe {
+  padding-top: 1.5rem;
+}
+
+.headMe {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border-radius: $radius-lg $radius-lg 0 0;
+  background: var(--me-bg);
+  color: var(--me-fg);
+
+  // the logo mark inherits currentColor; tint it yellow on purple
+  svg {
+    color: var(--accent);
+  }
+}
+
+.headAgency {
+  color: var(--c-muted);
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  // Restated here: this rule comes after the shared grid rule above and would
+  // otherwise override it.
+  @include up(lg) {
+    display: grid;
+    gap: 0;
+  }
+}
+
+.row {
+  @include up(lg) {
+    grid-column: 1 / -1;
+
+    @supports (grid-template-columns: subgrid) {
+      grid-template-columns: subgrid;
+    }
+  }
+}
+
+/* --- Cells --------------------------------------------------------------- */
+.topic,
+.me,
+.agency {
+  margin: 0;
+
+  @include up(lg) {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+.topic {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+
+  @include up(lg) {
+    border-bottom: 1px solid var(--c-border);
+  }
+}
+
+.topicIcon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-sm;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  transition:
+    background-color 0.45s $ease-hover,
+    color 0.45s $ease-hover,
+    transform 0.6s $ease-out;
+}
+
+:global(:root[data-theme='dark']) .topicIcon {
+  background: rgba(106, 99, 201, 0.18);
+  color: var(--brand-200);
+}
+
+.me {
+  background: var(--me-bg);
+  color: var(--me-fg);
+  font-weight: 500;
+  line-height: 1.5;
+  transition: background-color 0.45s $ease-hover;
+
+  @include up(lg) {
+    border-bottom: 1px solid var(--me-line);
+  }
+}
+
+.agency {
+  color: var(--c-muted);
+  line-height: 1.5;
+  transition: color 0.45s $ease-hover;
+
+  @include up(lg) {
+    border-bottom: 1px solid var(--c-border);
+  }
+}
+
+// Close off the purple column at the bottom.
+.row:last-child .me {
+  @include up(lg) {
+    border-bottom: 0;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.row:last-child .topic,
+.row:last-child .agency {
+  @include up(lg) {
+    border-bottom: 0;
+  }
+}
+
+/* --- Marks ---------------------------------------------------------------- */
+.mark,
+.markOff {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+
+.mark {
+  background: var(--mark-bg);
+  color: var(--mark-fg);
+}
+
+.markOff {
+  background: var(--c-bg-alt);
+  color: var(--c-muted);
+  font-weight: 700;
+}
+
+/* --- Row hover: the point lights up across all three columns --------------- */
+.row:hover {
+  .topicIcon {
+    background: var(--brand-700);
+    color: #fff;
+
+    @include motion-safe {
+      transform: rotate(-6deg) scale(1.06);
+    }
+  }
+
+  .me {
+    background: var(--me-bg-hover);
+  }
+
+  .agency {
+    color: var(--c-body);
+  }
+}
+
+:global(:root[data-theme='dark']) .row:hover .topicIcon {
+  background: var(--accent);
+  color: var(--brand-900);
+}
+
+/* ==========================================================================
+   Below lg: one small card per point
+   ========================================================================== */
+@media (max-width: 1023.98px) {
+  .row {
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    border-radius: $radius;
+    background: var(--c-surface);
+  }
+
+  .topic {
+    padding: 1rem 1.15rem;
+  }
+
+  .me,
+  .agency {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.85rem 1.15rem;
+    font-size: 0.9375rem;
+  }
+
+  .agency {
+    border-top: 1px solid var(--c-border);
+  }
+}
+
+/* --- Note ------------------------------------------------------------------- */
+.note {
+  max-width: 44rem;
+  margin: 2rem auto 0;
+  color: var(--c-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+:global(:root[data-reduce-motion='true']) .row:hover .topicIcon {
+  transform: none;
+}

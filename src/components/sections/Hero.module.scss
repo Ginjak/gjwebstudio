@@ -1,0 +1,224 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: calc(var(--header-height) + 3rem) 3.5rem;
+
+  @include up(lg) {
+    padding-block: calc(var(--header-height) + 5rem) 5rem;
+  }
+}
+
+.inner {
+  @include container($container-wide);
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.withImage {
+  @include up(lg) {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 4rem;
+  }
+}
+
+.content {
+  max-width: 44rem;
+}
+
+.center {
+  .inner {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .content {
+    max-width: 52rem;
+  }
+
+  .actions,
+  .bullets {
+    justify-content: center;
+  }
+}
+
+/* --- Home variant: dark, full-height, floating shapes -------------------- */
+.home {
+  background: var(--brand-700);
+  color: rgba(255, 255, 255, 0.86);
+  min-height: min(92vh, 860px);
+  display: flex;
+  align-items: center;
+
+  --c-fg: #fff;
+  --c-body: rgba(255, 255, 255, 0.86);
+  --c-muted: rgba(255, 255, 255, 0.7);
+  --c-focus: var(--accent);
+  --btn-primary-bg: var(--accent);
+  --btn-primary-fg: var(--brand-900);
+  --btn-primary-bg-hover: #fff;
+  --btn-secondary-fg: #fff;
+  --btn-secondary-border: rgba(255, 255, 255, 0.55);
+
+  .content {
+    max-width: 52rem;
+  }
+}
+
+.page {
+  background: var(--c-bg-alt);
+  border-bottom: 1px solid var(--c-border);
+}
+
+/* --- Typography ---------------------------------------------------------- */
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--c-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.title {
+  @include heading(1);
+  margin: 0;
+  color: var(--c-fg);
+}
+
+.body {
+  margin: 1.25rem 0 0;
+  max-width: 40rem;
+  font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.3125rem);
+  line-height: 1.6;
+  color: var(--c-body);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 2rem;
+}
+
+.bullets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.5rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--c-body);
+  }
+}
+
+.check {
+  width: 18px;
+  height: 18px;
+  color: var(--accent-2);
+  flex: 0 0 auto;
+}
+
+.media {
+  position: relative;
+  z-index: 2;
+}
+
+/* --- Decorative shapes --------------------------------------------------- */
+.shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  display: block;
+  width: min(46vw, 34rem);
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.hexagon {
+  top: -14%;
+  right: -12%;
+  color: var(--brand-500);
+  opacity: 0.85;
+  rotate: 18deg;
+}
+
+.circle {
+  bottom: -26%;
+  right: 6%;
+  width: min(30vw, 20rem);
+  color: var(--accent-3);
+  opacity: 0.55;
+}
+
+.triangle {
+  bottom: -18%;
+  left: -14%;
+  width: min(36vw, 24rem);
+  color: var(--accent-2);
+  opacity: 0.45;
+  rotate: 24deg;
+}
+
+.diamond {
+  top: 14%;
+  left: 4%;
+  width: min(12vw, 7rem);
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hexagon {
+    animation: drift-a 34s ease-in-out infinite;
+  }
+
+  .circle {
+    animation: drift-b 28s ease-in-out infinite;
+  }
+
+  .triangle {
+    animation: drift-c 40s ease-in-out infinite;
+  }
+
+  .diamond {
+    animation: drift-b 24s ease-in-out infinite reverse;
+  }
+}
+
+@keyframes drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  33% { transform: translate3d(-3vw, 3vh, 0) rotate(12deg); }
+  66% { transform: translate3d(2vw, -2vh, 0) rotate(-8deg); }
+}
+
+@keyframes drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-4vw, -4vh, 0) scale(1.06); }
+}
+
+@keyframes drift-c {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(4vw, -3vh, 0) rotate(18deg); }
+}
+
+:global(:root[data-contrast='high']) .shapes {
+  display: none;
+}

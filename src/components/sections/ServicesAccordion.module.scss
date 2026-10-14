@@ -1,0 +1,307 @@
+.wrap {
+  display: grid;
+  gap: 2rem;
+
+  @include up(lg) {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--c-border);
+}
+
+.tabWrap {
+  border-bottom: 1px solid var(--c-border);
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1.1rem 0;
+  background: none;
+  border: 0;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color $dur-fast $ease,
+    padding-left $dur $ease;
+
+  @include focus-ring(2px);
+
+  /* Accent bar that grows in next to the active item. */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 1.4em;
+    border-radius: $radius-pill;
+    background: var(--accent);
+    translate: 0 -50%;
+    scale: 1 0;
+    transition: scale $dur $ease;
+  }
+
+  @include up(lg) {
+    color: var(--c-muted);
+
+    &:hover {
+      color: var(--c-fg);
+    }
+  }
+}
+
+.tabActive {
+  padding-left: 1.25rem;
+
+  &::before {
+    scale: 1 1;
+  }
+
+  @include up(lg) {
+    color: var(--c-fg);
+  }
+
+  .tabIcon {
+    color: var(--c-link);
+    transform: translateX(4px);
+  }
+}
+
+.tabText {
+  flex: 1;
+}
+
+.tabIcon {
+  flex: 0 0 auto;
+  color: var(--c-muted);
+  transition:
+    transform $dur $ease,
+    color $dur-fast $ease;
+}
+
+/* --- Mobile inline panel -------------------------------------------------- */
+.mobilePanel {
+  padding: 0 0 1.25rem 1.25rem;
+
+  @include up(lg) {
+    display: none !important;
+  }
+
+  > * {
+    @include motion-safe {
+      animation: content-in 0.45s $ease-out both;
+    }
+  }
+
+  > :nth-child(2) {
+    animation-delay: 60ms;
+  }
+}
+
+.excerpt {
+  margin: 0 0 0.85rem;
+  color: var(--c-body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.inlineLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--c-link);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--c-underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+
+  @include focus-ring(2px);
+}
+
+/* --- Desktop card --------------------------------------------------------- */
+.panels {
+  display: none;
+
+  @include up(lg) {
+    display: block;
+    position: relative;
+  }
+}
+
+.card {
+  position: sticky;
+  top: calc(var(--header-height) + 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 22rem;
+  padding: 2.5rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-lg;
+  background: var(--c-surface);
+
+  --number-color: var(--c-border);
+}
+
+/* Brand look: dark purple card like the hero, with drifting colour glows.
+   Skipped in high-contrast mode, which keeps the plain bordered card. */
+:global(:root:not([data-contrast='high'])) .card {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--brand-700);
+  box-shadow: $shadow-lg;
+  color: rgba(255, 255, 255, 0.86);
+
+  --c-fg: #fff;
+  --c-body: rgba(255, 255, 255, 0.86);
+  --c-muted: rgba(255, 255, 255, 0.7);
+  --c-focus: var(--accent);
+  --c-link: #fff;
+  --c-link-hover: var(--accent);
+  --c-underline: var(--accent);
+  --btn-primary-bg: var(--accent);
+  --btn-primary-fg: var(--brand-900);
+  --btn-primary-bg-hover: #fff;
+  --number-color: rgba(255, 255, 255, 0.12);
+
+  .glow {
+    display: block;
+  }
+}
+
+/* Two soft colour blobs that glide to a new spot whenever the service changes. */
+.glow {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(48px);
+    transition: translate 0.9s $ease-out;
+  }
+
+  /* Tone-on-tone only — just enough depth to keep the flat purple from
+     looking dead, without reading as a gradient effect. */
+  &::before {
+    top: -40%;
+    right: -25%;
+    width: 24rem;
+    height: 24rem;
+    background: var(--brand-600);
+    opacity: 0.45;
+    translate: calc(var(--active, 0) * -1.5rem) calc(var(--active, 0) * 1rem);
+  }
+
+  &::after {
+    bottom: -45%;
+    left: -20%;
+    width: 18rem;
+    height: 18rem;
+    background: var(--brand-900);
+    opacity: 0.5;
+    translate: calc(var(--active, 0) * 1.25rem) calc(var(--active, 0) * -0.75rem);
+  }
+}
+
+.panel {
+  /* Content enters in a short stagger each time the panel becomes visible
+     (display: none → block restarts the animation). */
+  > * {
+    @include motion-safe {
+      animation: content-in 0.5s $ease-out both;
+    }
+  }
+
+  > :nth-child(3) {
+    animation-delay: 60ms;
+  }
+
+  > :nth-child(4) {
+    animation-delay: 120ms;
+  }
+}
+
+.number {
+  // Positioned against the (sticky) card → its top-right corner.
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  color: var(--number-color);
+  font-family: var(--font-display);
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+
+  @include motion-safe {
+    animation-name: number-in;
+  }
+}
+
+.panelTitle {
+  @include heading(3);
+  margin: 0 0 0.75rem;
+  color: var(--c-fg);
+}
+
+.panelExcerpt {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--c-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.panelActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.75rem;
+}
+
+@keyframes content-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
+}
+
+@keyframes number-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+/* Accessibility panel's "reduce motion" toggle. */
+:global(:root[data-reduce-motion='true']) {
+  .panel > *,
+  .mobilePanel > * {
+    animation: none !important;
+  }
+}

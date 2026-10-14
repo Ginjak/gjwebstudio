@@ -1,0 +1,164 @@
+.wrap {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+
+  @include up(lg) {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 5rem;
+  }
+}
+
+/* --- Portrait with brand shapes ------------------------------------------- */
+.portrait {
+  position: relative;
+  width: min(100%, 26rem);
+  margin-inline: auto;
+  // room for the offset shape and the name tag
+  padding: 0 1.25rem 2.5rem 0;
+}
+
+/* A purple tile offset behind the photo and a yellow dot — the same shape
+   language as the home hero, kept small. */
+.shapeBack {
+  position: absolute;
+  inset: 1.25rem 0 2.5rem 1.25rem;
+  border-radius: $radius-lg;
+  background: var(--brand-700);
+}
+
+.shapeDot {
+  position: absolute;
+  top: -0.75rem;
+  left: -0.75rem;
+  z-index: 2;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.photo {
+  position: relative;
+  z-index: 1;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+}
+
+.nameTag {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0.85rem 1.15rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius;
+  background: var(--c-surface);
+  box-shadow: $shadow;
+
+  strong {
+    color: var(--c-fg);
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+  }
+
+  span {
+    color: var(--c-muted);
+    font-size: 0.8125rem;
+  }
+}
+
+:global(:root[data-theme='dark']) .shapeBack {
+  background: var(--brand-600);
+}
+
+:global(:root[data-contrast='high']) {
+  .shapeBack,
+  .shapeDot {
+    display: none;
+  }
+}
+
+/* --- Story ------------------------------------------------------------------ */
+.content {
+  max-width: 40rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--c-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.title {
+  @include heading(2);
+  margin: 0 0 1.25rem;
+}
+
+.text {
+  margin: 0 0 1rem;
+  color: var(--c-body);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.signature {
+  margin: 1.25rem 0 0;
+  color: var(--c-fg);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* --- Tools ------------------------------------------------------------------ */
+.tools {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--c-border);
+}
+
+.toolsTitle {
+  margin: 0 0 0.9rem;
+  color: var(--c-muted);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.toolList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tool {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--c-border);
+  border-radius: $radius-pill;
+  background: var(--c-surface);
+  color: var(--c-fg);
+  font-size: 0.875rem;
+  font-weight: 600;
+  // Not links, so only a light tint on hover (a full fill would read as a button).
+  transition:
+    border-color $dur-hover $ease-hover,
+    color $dur-hover $ease-hover;
+
+  &:hover {
+    border-color: var(--c-link);
+    color: var(--c-link);
+  }
+}
