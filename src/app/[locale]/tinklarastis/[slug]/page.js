@@ -24,6 +24,9 @@ import { breadcrumb, article, webPage } from '@/lib/schema/builders';
 
 import styles from './post.module.scss';
 
+/** Only the generated paths exist; anything else is a real 404, not a soft one. */
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return locales.flatMap((locale) => posts.map((p) => ({ locale, slug: p.slug })));
 }

@@ -12,6 +12,7 @@ import Hero from '@/components/sections/Hero';
 import Section from '@/components/ui/Section';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import Media from '@/components/ui/Media';
+import Icon from '@/components/ui/Icon';
 import Tag from '@/components/ui/Tag';
 import Prose from '@/components/ui/Prose';
 import Reveal from '@/components/ui/Reveal';
@@ -23,6 +24,9 @@ import JsonLd from '@/lib/schema/JsonLd';
 import { breadcrumb, creativeWork, webPage } from '@/lib/schema/builders';
 
 import styles from './case-study.module.scss';
+
+/** Only the generated paths exist; anything else is a real 404, not a soft one. */
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => projects.map((p) => ({ locale, slug: p.slug })));
@@ -75,7 +79,7 @@ export default async function CaseStudyPage({ params }) {
     <>
       <JsonLd locale={locale} nodes={schema} />
 
-      <Hero eyebrow={pick(project.client, locale)} title={title} body={pick(project.excerpt, locale)}>
+      <Hero eyebrow={pick(project.client, locale)} title={title} body={pick(project.excerpt, locale)} wide>
         <Breadcrumbs
           label={t('nav.breadcrumbLabel')}
           homeLabel={t('nav.home')}
@@ -92,6 +96,7 @@ export default async function CaseStudyPage({ params }) {
           image={project.image}
           ratio="16/9"
           priority
+          quality={90}
           sizes="(min-width: 1280px) 1200px, 100vw"
         />
 
@@ -126,21 +131,35 @@ export default async function CaseStudyPage({ params }) {
               })}
             </dd>
           </div>
+          {project.url ? (
+            <div>
+              <dt>{t('work.visitSite')}</dt>
+              <dd>
+                <a href={project.url} target="_blank" rel="noopener" className={styles.siteLink}>
+                  <span className={styles.siteLinkText}>{new URL(project.url).hostname.replace(/^www\./, '')}</span>
+                  <Icon name="arrowUpRight" size={16} />
+                  <span className="sr-only"> ({t('common.opensInNewWindow')})</span>
+                </a>
+              </dd>
+            </div>
+          ) : null}
         </dl>
       </Section>
 
-      <Section background="alt" header={false}>
-        <ul className={styles.metrics}>
-          {project.metrics?.map((metric, i) => (
-            <li key={metric.value}>
-              <Reveal animation="fade-up" delay={i * 70} className={styles.metric}>
-                <span className={styles.metricValue}>{metric.value}</span>
-                <span className={styles.metricLabel}>{pick(metric.label, locale)}</span>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      {project.metrics?.length ? (
+        <Section background="alt" header={false}>
+          <ul className={styles.metrics}>
+            {project.metrics.map((metric, i) => (
+              <li key={metric.value}>
+                <Reveal animation="fade-up" delay={i * 70} className={styles.metric}>
+                  <span className={styles.metricValue}>{metric.value}</span>
+                  <span className={styles.metricLabel}>{pick(metric.label, locale)}</span>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
 
       <Section header={false}>
         <div className={styles.story}>
@@ -150,6 +169,17 @@ export default async function CaseStudyPage({ params }) {
 
             <h2>{t('common.solution')}</h2>
             <p>{pick(project.solution, locale)}</p>
+
+            {project.highlights ? (
+              <>
+                <h3>{t('work.highlightsTitle')}</h3>
+                <ul>
+                  {pick(project.highlights, locale).map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
 
             <h2>{t('common.outcome')}</h2>
             <p>{pick(project.outcome, locale)}</p>
@@ -161,7 +191,7 @@ export default async function CaseStudyPage({ params }) {
             {project.gallery.map((image, i) => (
               <li key={image.src}>
                 <Reveal animation="zoom" delay={i * 80}>
-                  <Media image={image} ratio="16/10" sizes="(min-width: 1024px) 50vw, 100vw" />
+                  <Media image={image} ratio="16/10" quality={90} sizes="(min-width: 1024px) 50vw, 100vw" />
                 </Reveal>
               </li>
             ))}

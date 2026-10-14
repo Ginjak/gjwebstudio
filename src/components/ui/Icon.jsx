@@ -31,9 +31,11 @@ const paths = {
   bolt: <path d="M13 3 5 14h6l-1 7 8-11h-6l1-7Z" />,
   cart: (
     <>
-      <path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L20 8H6" />
-      <circle cx="10" cy="20" r="1.4" />
-      <circle cx="17" cy="20" r="1.4" />
+      {/* Drawn 1 unit higher than a plain grid would put it: the wheels hang
+          below the basket, so this centres the icon optically next to text. */}
+      <path d="M3 3h2l2.2 11.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L20 7H6" />
+      <circle cx="10" cy="19" r="1.4" />
+      <circle cx="17" cy="19" r="1.4" />
     </>
   ),
   move: <path d="M8 5 4 9l4 4M4 9h11a5 5 0 0 1 0 10H9" />,

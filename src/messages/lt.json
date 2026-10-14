@@ -86,7 +86,7 @@
     "servicesLead": "Nuo vizitinės svetainės iki el. parduotuvės — platformą renkuosi pagal jūsų tikslus: WordPress, Next.js ar Shopify. Pasirinktinai — SEO paslaugos, Google verslo profilio optimizavimas ir svetainės priežiūra.",
     "workEyebrow": "Darbai",
     "workTitle": "Sukurtos svetainės ir el. parduotuvės — su realiais rezultatais",
-    "workLead": "Įmonių svetainės, el. parduotuvės ir rezervacijų sistemos Lietuvos verslui. Kiekvienas projektas — su išmatuotu rezultatu: greitesnė svetainė, daugiau užklausų ar aukštesnės pozicijos Google.",
+    "workLead": "Įmonių svetainės, el. parduotuvės ir SEO projektai verslams Lietuvoje ir užsienyje. Rezultatai, kuriuos galima pamatuoti: 226 kartus daugiau parodymų Google, 2 vieta Google žemėlapyje ir 100 balų PageSpeed.",
     "workTitleShort": "Naujausi svetainių kūrimo projektai",
     "aboutEyebrow": "Apie mane",
     "aboutTitle": "Vienas kūrėjas. Visa atsakomybė.",
@@ -142,13 +142,14 @@
     "faqTitle": "Klausimai apie kainas"
   },
   "work": {
-    "title": "Darbai",
-    "lead": "Realūs projektai, realūs rezultatai. Kiekvienas atvejis — su skaičiais.",
+    "title": "Svetainių kūrimo darbai ir SEO rezultatai",
+    "lead": "Svetainių kūrimo, el. parduotuvių, SEO ir priežiūros projektai verslams Lietuvoje ir užsienyje. Kiekviename aprašyme — ką padariau ir kokį rezultatą tai atnešė.",
     "filterLabel": "Filtruoti pagal kategoriją",
     "client": "Klientas",
     "year": "Metai",
     "servicesUsed": "Paslaugos",
     "visitSite": "Aplankyti svetainę",
+    "highlightsTitle": "Ką atlikau",
     "nextProject": "Kitas projektas",
     "noResults": "Šioje kategorijoje projektų kol kas nėra."
   },

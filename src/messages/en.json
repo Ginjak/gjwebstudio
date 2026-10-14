@@ -86,7 +86,7 @@
     "servicesLead": "From a simple business website to a full online store — I choose the platform that fits your goals: WordPress, Next.js or Shopify. Optional extras: SEO services, Google Business Profile optimisation and website maintenance.",
     "workEyebrow": "Work",
     "workTitle": "Web design portfolio: websites and online stores that perform",
-    "workLead": "Business websites, online stores and booking systems, each with a measurable result — a faster site, more enquiries or higher Google rankings.",
+    "workLead": "Business websites, online stores and SEO projects for clients in Lithuania and abroad, with results you can measure: 226× more Google impressions, #2 in the Google map pack and a 100 PageSpeed score.",
     "workTitleShort": "Recent website projects",
     "aboutEyebrow": "About",
     "aboutTitle": "One developer. Full accountability.",
@@ -142,13 +142,14 @@
     "faqTitle": "Pricing questions"
   },
   "work": {
-    "title": "Work",
-    "lead": "Real projects, real results. Every case study comes with numbers.",
+    "title": "Web design portfolio and SEO results",
+    "lead": "Website, online store, SEO and maintenance projects for businesses in Lithuania and abroad. Each case study shows what I did and what it achieved.",
     "filterLabel": "Filter by category",
     "client": "Client",
     "year": "Year",
     "servicesUsed": "Services",
     "visitSite": "Visit site",
+    "highlightsTitle": "What I did",
     "nextProject": "Next project",
     "noResults": "No projects in this category yet."
   },

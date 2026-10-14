@@ -72,9 +72,9 @@ export default async function TestimonialsPage({ params }) {
         : null,
     }));
 
-  const linkedProjects = testimonials
-    .map(projectFor)
-    .filter(Boolean)
+  // Projects behind the reviews; when none are linked, show the latest work instead.
+  const reviewed = testimonials.map(projectFor).filter(Boolean);
+  const linkedProjects = (reviewed.length ? reviewed : projects)
     .slice(0, 3)
     .map((project) => ({
       slug: project.slug,

@@ -132,7 +132,6 @@ export const testimonials = [
       lt: 'Pirmą kartą per dešimt metų svetainė nebėra galvos skausmas. Užsakymai patys atsiranda apskaitoje, o klientai nebeskambina klausti, ar prekė sandėlyje.',
       en: 'For the first time in ten years the website is not a headache. Orders appear in accounting by themselves and customers no longer ring to ask if something is in stock.',
     },
-    project: 'baldu-parduotuve-woocommerce',
   },
   {
     id: 't2',
@@ -143,7 +142,6 @@ export const testimonials = [
       lt: 'Gavome tai, ko prašėme, per sutartą laiką ir už sutartą kainą. Skamba banaliai, bet po dviejų nesėkmingų bandymų su agentūromis tai buvo didžiausias palengvėjimas.',
       en: 'We got what we asked for, on time and at the agreed price. It sounds mundane, but after two failed attempts with agencies it was an enormous relief.',
     },
-    project: 'gamybos-imones-svetaine',
   },
   {
     id: 't3',
@@ -154,7 +152,6 @@ export const testimonials = [
       lt: 'Rezervacijų sistema atsipirko per keturis mėnesius vien sutaupytais komisiniais. O svarbiausia — dabar klientų duomenys priklauso mums.',
       en: 'The booking system paid for itself in four months on saved commission alone. More importantly, the customer data is now ours.',
     },
-    project: 'restorano-rezervacijos',
   },
   {
     id: 't4',
@@ -165,7 +162,6 @@ export const testimonials = [
       lt: 'Bijojome migracijos, nes girdėjome istorijų apie dingusį srautą. Po perkėlimo lankytojų tik padaugėjo, o dabar turinį publikuojame patys.',
       en: 'We were afraid of the migration — we had heard the horror stories about lost traffic. Visits actually went up, and now we publish content ourselves.',
     },
-    project: 'asociacijos-svetaine',
   },
   {
     id: 't5',
@@ -176,7 +172,6 @@ export const testimonials = [
       lt: 'Nuotraukos atrodo taip, kaip turi atrodyti, ir svetainė vis tiek kraunasi akimirksniu. Nemaniau, kad tai įmanoma suderinti.',
       en: 'The photographs look the way they should and the site still loads instantly. I did not think those two things could go together.',
     },
-    project: 'fotografo-portfolio',
   },
 ];
 

@@ -34,6 +34,9 @@ const heroImages = [servicesDevelopment, servicesMaintenance, servicesSeo];
 /** Max headline numbers in the results band. */
 const MAX_RESULTS = 4;
 
+/** Only the generated paths exist; anything else is a real 404, not a soft one. */
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return locales.flatMap((locale) => services.map((s) => ({ locale, slug: s.slug })));
 }

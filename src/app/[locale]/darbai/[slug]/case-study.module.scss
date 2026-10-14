@@ -6,7 +6,7 @@
   border-top: 1px solid var(--c-border);
 
   @include up(md) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   }
 
   dt {
@@ -23,6 +23,38 @@
     color: var(--c-fg);
     font-weight: 600;
   }
+}
+
+/* External project link — same red underline as links elsewhere on the site. */
+.siteLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--c-fg);
+  text-decoration: none;
+  transition: color $dur-hover $ease-hover;
+
+  @include focus-ring(3px);
+
+  svg {
+    flex: none;
+    transition: transform $dur-hover $ease-hover;
+  }
+
+  &:hover {
+    color: var(--c-link);
+
+    svg {
+      transform: translate(2px, -2px);
+    }
+  }
+}
+
+.siteLinkText {
+  text-decoration: underline;
+  text-decoration-color: var(--c-underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
 }
 
 .tagList {

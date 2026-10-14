@@ -28,6 +28,22 @@
   max-width: 44rem;
 }
 
+/* Long titles (case studies): a wider column and a slightly smaller size so
+   the title settles on 2 balanced lines instead of 3–5. */
+.wide {
+  .content {
+    max-width: 72rem;
+  }
+
+  .title {
+    font-size: clamp(2.1rem, 1.4rem + 2.6vw, 3.25rem);
+  }
+
+  .body {
+    max-width: 52rem;
+  }
+}
+
 .center {
   .inner {
     justify-items: center;

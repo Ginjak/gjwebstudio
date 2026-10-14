@@ -47,8 +47,14 @@
       width: 50%;
     }
 
+    /* Fill the left half at whatever height the text needs. Without the
+       ratio reset, a tall body made the 16/10 box wider than its half and
+       it covered the text. */
     .media {
+      width: 100%;
       height: 100%;
+      min-height: 22rem;
+      aspect-ratio: auto !important;
     }
 
     .body {
@@ -95,6 +101,13 @@
   font-weight: 600;
   line-height: 1.2;
   backdrop-filter: blur(6px);
+
+  /* Centre the icon on the capitals, not the full line box — descenders
+     (p, j, y) pull the box centre down, which made icons look low. */
+  svg {
+    flex: none;
+    transform: translateY(-0.125em);
+  }
   -webkit-backdrop-filter: blur(6px);
 }
 

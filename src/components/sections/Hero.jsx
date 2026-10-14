@@ -14,6 +14,7 @@ import styles from './Hero.module.scss';
  *  image                      registry image object (optional)
  *  variant  'home' | 'page'   home = dark with floating shapes
  *  align    'left' | 'center'
+ *  wide     let a long title and intro use more of the width
  *  children rendered above the eyebrow (used for breadcrumbs)
  */
 export default function Hero({
@@ -26,13 +27,14 @@ export default function Hero({
   imageAlt,
   variant = 'page',
   align = 'left',
+  wide = false,
   children,
 }) {
   const isHome = variant === 'home';
 
   return (
     <section
-      className={cn(styles.hero, styles[variant], styles[align])}
+      className={cn(styles.hero, styles[variant], styles[align], wide && styles.wide)}
       data-header-theme={isHome ? 'dark' : undefined}
     >
       {isHome ? <Shapes /> : null}

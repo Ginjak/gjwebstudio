@@ -27,6 +27,9 @@ import { breadcrumb, service as serviceNode, faqPage, webPage, localBusiness } f
 /** City pages target WordPress searches, so they feature the WordPress services. */
 const CITY_SERVICES = ['wordpress-kurimas', 'wordpress-prieziura', 'seo-optimizavimas'];
 
+/** Only the generated paths exist; anything else is a real 404, not a soft one. */
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return locales.flatMap((locale) => cities.map((city) => ({ locale, city: city.slug })));
 }
