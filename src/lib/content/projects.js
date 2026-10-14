@@ -80,7 +80,7 @@ export const projects = [
       en: 'I did everything from scratch: a fast static site built with Eleventy (11ty) and Decap CMS, hosted on Netlify, and structured for search — every treatment, condition and area served has its own optimised page. I implemented technical SEO and comprehensive structured data, optimised the Google Business Profile and integrated Calendly bookings so clients can book in a few clicks.',
     },
     outcome: {
-      lt: 'Per tris mėnesius po paleidimo (rugpjūtį–spalį) svetainė Google paieškoje parodyta 330 tūkst. kartų — 226 kartus daugiau nei prieš atnaujinimą.',
+      lt: 'Per tris mėnesius po paleidimo (rugpjūtį–spalį) svetainė Google paieškos rezultatuose sulaukė 330 tūkst. parodymų — 226 kartus daugiau nei prieš atnaujinimą.',
       en: 'In the three months after launch (August to October) the site was shown 330K times in Google Search — 226 times more than before the rebuild.',
     },
     metrics: [
@@ -90,7 +90,7 @@ export const projects = [
     ],
     highlights: {
       lt: [
-        'Svetainė sukurta nuo nulio su Eleventy (11ty): statiniai puslapiai kraunasi akimirksniu, talpinimas — Netlify',
+        'Svetainė nuo nulio sukurta su Eleventy (11ty) taip, kad puslapiai krautųsi greitai; talpinimas — Netlify',
         'Decap TVS: klinika pati redaguoja tekstus ir puslapius be programuotojo',
         '21 naujas optimizuotas puslapis: 8 procedūros, 6 būklės ir 7 aptarnaujami rajonai (Richmond, Twickenham, Kew ir kt.)',
         'Vidinių nuorodų struktūra: kiekvieno rajono puslapis veda į visas procedūras ir būkles',
@@ -192,7 +192,7 @@ export const projects = [
       en: 'Skala is a UK marketing, sales and strategy agency. It needed a distinctive website the team could change freely — building new pages, arranging sections and adjusting how they look — without a developer and without slowing the site down.',
     },
     solution: {
-      lt: 'Nuo nulio sukūriau individualią WordPress temą, kurioje kiekvienas puslapis surenkamas iš ACF lankstaus turinio (Flexible Content) sekcijų. Klientas gali įdėti bet kurią sekciją į bet kurį puslapį ir bet kurią vietą, o kiekvienoje sekcijoje keisti ne tik turinį, bet ir išdėstymą: vidinius ir išorinius tarpus, stulpelių skaičių, nuorodas į kitas sekcijas. Kodas lengvas, be nereikalingų įskiepių, todėl svetainė atsidaro akimirksniu.',
+      lt: 'Nuo nulio sukūriau individualią WordPress temą, kurioje kiekvienas puslapis surenkamas iš ACF lankstaus turinio (Flexible Content) sekcijų. Klientas gali įdėti bet kurią sekciją į bet kurį puslapį ir bet kurią vietą, o kiekvienoje sekcijoje keisti ne tik turinį, bet ir išdėstymą: vidinius ir išorinius tarpus, stulpelių skaičių, nuorodas į kitas sekcijas. Kodas lengvas, be nereikalingų įskiepių, todėl puslapiai kraunasi greitai.',
       en: 'I built a bespoke WordPress theme from scratch where every page is assembled from ACF flexible content sections. The client can add any section to any page, in any position, and change not just its content but its layout: padding, margins, the number of columns and links to other sections. The code is lean with no unnecessary plugins, so the site loads instantly.',
     },
     outcome: {

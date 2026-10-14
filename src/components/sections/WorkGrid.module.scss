@@ -38,7 +38,10 @@
   height: 100%;
 }
 
-.featured {
+/* .card.featured (two classes) so it beats Card's own `.card { flex-direction:
+   column }` regardless of stylesheet order — in production builds Card's CSS
+   can load after this file and stack the featured card. */
+.card.featured {
   @include up(lg) {
     flex-direction: row;
 

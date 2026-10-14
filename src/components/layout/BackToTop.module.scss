@@ -1,7 +1,9 @@
 .button {
   position: fixed;
   right: 1rem;
-  bottom: 5.5rem;
+  /* Level with the accessibility button (52px at bottom: 1rem): this one is
+     46px, so 3px higher puts both centres on the same line. */
+  bottom: calc(1rem + 3px);
   z-index: $z-sticky;
   display: grid;
   place-items: center;
@@ -29,7 +31,6 @@
 
   @include up(md) {
     right: 1.5rem;
-    bottom: 1.5rem;
   }
 }
 

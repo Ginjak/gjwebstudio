@@ -381,7 +381,7 @@ export const serviceDetails = {
       ps(
         'Svetainė lėta net po optimizavimo.',
         'The site is still slow after optimisation.',
-        'Next.js puslapiai sugeneruojami iš anksto ir pateikiami per CDN — jie atsidaro akimirksniu.',
+        'Next.js puslapiai sugeneruojami iš anksto ir pateikiami per CDN, todėl kraunasi greitai.',
         'Next.js pages are pre-rendered and served from a CDN — they open instantly.',
       ),
       ps(

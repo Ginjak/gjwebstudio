@@ -347,13 +347,13 @@ export const services = [
       en: 'Ultra-fast, secure websites and web apps built with Next.js and React — for when WordPress is not enough.',
     },
     body: {
-      lt: 'Next.js renkuosi, kai svetainei reikia didžiausio greičio, sudėtingesnės logikos ar integracijų: rezervacijų, klientų paskyrų, skaičiuoklių ar didelių katalogų. Puslapiai sugeneruojami iš anksto ir pateikiami per CDN, todėl atsidaro akimirksniu ir puikiai vertinami Google. Turinį valdote patogioje turinio valdymo sistemoje (headless CMS) arba net WordPress aplinkoje — be jokio programavimo.',
+      lt: 'Next.js renkuosi, kai svetainei reikia didžiausio greičio, sudėtingesnės logikos ar integracijų: rezervacijų, klientų paskyrų, skaičiuoklių ar didelių katalogų. Puslapiai sugeneruojami iš anksto ir pateikiami per CDN, todėl kraunasi greitai ir yra gerai vertinami Google. Turinį valdote patogioje turinio valdymo sistemoje (headless CMS) arba net WordPress aplinkoje — be jokio programavimo.',
       en: 'I choose Next.js when a site needs maximum speed, more complex logic or integrations: bookings, customer accounts, calculators or large catalogues. Pages are pre-rendered and served from a CDN, so they open instantly and score highly with Google. You manage content in a friendly headless CMS — or even in WordPress — without touching code.',
     },
     features: {
       lt: [
         'Individualus dizainas ir React komponentai',
-        'Statinis generavimas ir CDN — puslapiai atsidaro akimirksniu',
+        'Statinis generavimas ir CDN greitam puslapių krovimuisi',
         'Headless CMS arba WordPress turiniui valdyti',
         'Techninis SEO, schema.org ir kelios kalbos',
         'Integracijos su API, CRM ir mokėjimų sistemomis',
